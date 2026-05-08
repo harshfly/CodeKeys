@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeKeys — Type Like a Dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080a0f;
+  --surface:#0f1219;
+  --surface2:#161b25;
+  --surface3:#1c2231;
+  --border:#1a2035;
+  --border2:#232d45;
+  --text:#dde4f0;
+  --text2:#a0aec0;
+  --muted:#4a5568;
+  --accent:#00d4ff;
+  --accent-dim:rgba(0,212,255,0.12);
+  --green:#00e87a;
+  --green-dim:rgba(0,232,122,0.1);
+  --red:#ff4757;
+  --red-dim:rgba(255,71,87,0.1);
+  --amber:#ffb300;
+  --amber-dim:rgba(255,179,0,0.1);
+  --purple:#a855f7;
+  --purple-dim:rgba(168,85,247,0.1);
+  --mono:'Space Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --serif:'Fraunces',serif;
+  --radius:10px;
+  --radius-lg:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.6}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--sans)}
+
+/* ===== NAVBAR ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(8,10,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:8px;cursor:pointer}
+.logo-mark{width:28px;height:28px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px;fill:#000}
+.logo-text{font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-0.5px}
+.logo-text span{color:var(--accent)}
+nav ul{display:flex;list-style:none;gap:2px;align-items:center}
+nav ul li a{font-size:0.8rem;font-weight:500;color:var(--text2);padding:7px 13px;border-radius:7px;transition:all .2s;display:block}
+nav ul li a:hover{color:var(--text);background:var(--surface2)}
+nav ul li a.active{color:var(--text);background:var(--surface2)}
+.nav-cta{background:var(--accent)!important;color:#000!important;font-weight:600!important}
+.nav-cta:hover{opacity:0.9!important;background:var(--accent)!important}
+.nav-mobile-toggle{display:none;background:none;border:1px solid var(--border2);color:var(--text2);padding:6px 10px;border-radius:7px;cursor:pointer;font-size:1.1rem}
+
+/* ===== PAGES ===== */
+.page{display:none;padding-top:58px;min-height:100vh}
+.page.active{display:block}
+
+/* ===== SHARED ===== */
+.container{max-width:1100px;margin:0 auto;padding:0 2rem}
+.section{padding:4.5rem 0}
+.section-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:2.5px;color:var(--accent);text-transform:uppercase;margin-bottom:0.6rem;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';display:block;width:16px;height:1px;background:var(--accent)}
+.section-title{font-family:var(--serif);font-size:2.6rem;font-weight:300;color:var(--text);line-height:1.15;margin-bottom:0.9rem}
+.section-title em{font-style:italic;color:var(--accent)}
+.section-sub{font-size:0.92rem;color:var(--text2);max-width:540px;line-height:1.75}
+.divider{border:none;border-top:1px solid var(--border);margin:0}
+.tag{background:var(--surface2);border:1px solid var(--border2);border-radius:5px;font-size:0.64rem;font-family:var(--mono);color:var(--text2);padding:2px 8px;letter-spacing:0.3px}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;font-size:0.68rem;font-family:var(--mono);letter-spacing:0.5px;padding:4px 11px;font-weight:700}
+.badge-green{background:var(--green-dim);color:var(--green);border:1px solid rgba(0,232,122,0.25)}
+.badge-amber{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,179,0,0.25)}
+.badge-red{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,71,87,0.25)}
+.badge-blue{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,212,255,0.25)}
+.badge-purple{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(168,85,247,0.25)}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:0.82rem;font-weight:600;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;transition:all .22s;letter-spacing:0.2px}
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{opacity:0.85;transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid transparent}
+.btn-ghost:hover{background:var(--surface2);color:var(--text)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.pulse{animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* ===== HOME PAGE ===== */
+.hero{padding:5rem 0 3rem}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);color:var(--accent);font-size:0.68rem;font-family:var(--mono);letter-spacing:1px;padding:5px 13px;border-radius:20px;margin-bottom:1.5rem}
+.hero-pill-dot{width:6px;height:6px;background:var(--green);border-radius:50%}
+h1.hero-heading{font-family:var(--serif);font-size:4rem;line-height:1.06;font-weight:300;color:var(--text);margin-bottom:1.2rem}
+h1.hero-heading em{font-style:italic;color:var(--accent)}
+.hero-desc{font-size:0.95rem;line-height:1.8;color:var(--text2);margin-bottom:2rem;max-width:440px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hstat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center}
+.hstat-num{font-family:var(--mono);font-size:1.7rem;font-weight:700;color:var(--accent)}
+.hstat-lbl{font-size:0.68rem;color:var(--text2);margin-top:3px;letter-spacing:0.5px}
+.hero-terminal{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.term-bar{background:var(--surface2);padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.term-dots{display:flex;gap:6px}
+.td{width:10px;height:10px;border-radius:50%}
+.td-r{background:#ff5f57}.td-a{background:#febc2e}.td-g{background:#28c840}
+.term-name{font-family:var(--mono);font-size:0.68rem;color:var(--text2);margin-left:auto}
+.term-body{padding:1.5rem;font-family:var(--mono);font-size:0.78rem;line-height:2}
+.cl{display:flex;gap:0.75rem}
+.ln{color:var(--muted);min-width:18px;text-align:right;font-size:0.68rem;user-select:none}
+.kw{color:#c792ea}.str{color:var(--green)}.fn{color:var(--accent)}.cmt{color:var(--muted)}.num{color:var(--amber)}.op{color:#f07178}
+.cursor{display:inline-block;width:2px;height:13px;background:var(--accent);animation:blink .75s steps(1) infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.lang-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:1rem}
+.lpill{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;font-family:var(--mono);font-size:0.66rem;color:var(--text2);padding:3px 10px;letter-spacing:0.3px}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.feat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;position:relative;overflow:hidden;transition:all .28s}
+.feat::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at top left,var(--fg,transparent) 0%,transparent 70%);opacity:0;transition:.3s;pointer-events:none}
+.feat:hover{border-color:var(--border2);transform:translateY(-3px)}
+.feat:hover::after{opacity:1}
+.feat-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:1rem}
+.feat h3{font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:0.45rem;letter-spacing:0.1px}
+.feat p{font-size:0.77rem;color:var(--text2);line-height:1.7}
+.feat-accent{display:block;width:28px;height:2px;border-radius:1px;margin-top:1rem}
+
+/* HOW IT WORKS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;position:relative}
+.steps::before{content:'';position:absolute;top:24px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--border2),var(--border2),transparent);z-index:0}
+.step{text-align:center;position:relative;z-index:1}
+.step-num{width:48px;height:48px;border-radius:50%;background:var(--surface);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.85rem;font-weight:700;color:var(--accent);margin:0 auto 1rem}
+.step h4{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:0.4rem}
+.step p{font-size:0.75rem;color:var(--text2);line-height:1.65}
+
+/* LANGUAGE SHOWCASE */
+.lang-showcase{display:grid;grid-template-columns:1fr 1.4fr;gap:2rem;margin-top:2.5rem;align-items:start}
+.lang-list{display:flex;flex-direction:column;gap:8px}
+.lang-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.9rem 1.1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
+.lang-item:hover,.lang-item.active{border-color:var(--accent);background:rgba(0,212,255,0.04)}
+.lang-item.active .lang-dot{background:var(--accent)}
+.lang-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);transition:.2s;flex-shrink:0}
+.lang-item-name{font-family:var(--mono);font-size:0.8rem;font-weight:700;color:var(--text)}
+.lang-item-desc{font-size:0.72rem;color:var(--text2);margin-left:auto}
+.lang-preview{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;position:sticky;top:70px}
+.lp-header{background:var(--surface2);padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.lp-label{font-family:var(--mono);font-size:0.7rem;color:var(--text2)}
+.lp-badge{font-family:var(--mono);font-size:0.6rem;background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,212,255,0.2);border-radius:4px;padding:2px 7px;margin-left:auto}
+.lp-body{padding:1.5rem;font-family:var(--mono);font-size:0.76rem;line-height:1.9;white-space:pre;overflow-x:auto}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.testi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem}
+.testi-stars{color:var(--amber);font-size:0.85rem;margin-bottom:0.75rem;letter-spacing:2px}
+.testi-text{font-size:0.83rem;color:var(--text2);line-height:1.75;margin-bottom:1rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.7rem;font-weight:700;flex-shrink:0}
+.testi-name{font-size:0.8rem;font-weight:600;color:var(--text)}
+.testi-role{font-size:0.68rem;color:var(--text2)}
+
+/* CTA SECTION */
+.cta-section{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4rem;text-align:center;margin:4rem 0}
+.cta-section h2{font-family:var(--serif);font-size:2.8rem;font-weight:300;color:var(--text);margin-bottom:0.8rem}
+.cta-section p{font-size:0.92rem;color:var(--text2);margin-bottom:2rem;max-width:420px;margin-left:auto;margin-right:auto}
+
+/* ===== PRACTICE PAGE ===== */
+.practice-layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
+.practice-main{}
+.practice-sidebar{position:sticky;top:70px;display:flex;flex-direction:column;gap:1rem}
+
+.arena{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;position:relative}
+.arena-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+.arena-stats{display:flex;gap:1.5rem;align-items:center}
+.astat{text-align:center;min-width:52px}
+.astat-val{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--text);line-height:1}
+.astat-key{font-size:0.6rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.astat.wpm .astat-val{color:var(--accent)}
+.astat.acc .astat-val{color:var(--green)}
+.astat.err .astat-val{color:var(--red)}
+.timer-ring{width:56px;height:56px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--text);transition:.3s;flex-shrink:0}
+.timer-ring.low{border-color:var(--red)!important;color:var(--red)}
+.timer-ring.warn{border-color:var(--amber);color:var(--amber)}
+.arena-controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.c-btn{background:var(--surface2);border:1px solid var(--border2);color:var(--text2);font-size:0.75rem;font-weight:500;padding:6px 13px;border-radius:7px;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.c-btn:hover{border-color:var(--accent);color:var(--accent)}
+.c-btn.on{background:var(--accent-dim);border-color:rgba(0,212,255,0.35);color:var(--accent);font-weight:600}
+.c-btn.sel{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700}
+.c-sel{background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:0.73rem;padding:6px 12px;border-radius:7px;outline:none;cursor:pointer}
+.c-sel:focus{border-color:var(--accent)}
+.snippet-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.2rem}
+.stab{background:transparent;border:1px solid var(--border);color:var(--text2);font-family:var(--mono);font-size:0.68rem;padding:4px 12px;border-radius:5px;cursor:pointer;transition:all .2s;letter-spacing:0.4px}
+.stab:hover{border-color:var(--border2);color:var(--text)}
+.stab.active{background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.3);color:var(--accent)}
+
+.code-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.5rem;font-family:var(--mono);font-size:0.8rem;line-height:2.1;min-height:150px;cursor:text;position:relative;outline:none;overflow:hidden}
+.code-box:focus-within{border-color:rgba(0,212,255,0.25)}
+.ch{transition:background .08s;border-radius:2px}
+.ch.ok{color:var(--green)}
+.ch.bad{color:var(--red);background:rgba(255,71,87,0.13)}
+.ch.cur{background:rgba(0,212,255,0.2);outline:1.5px solid var(--accent);outline-offset:-1px;border-radius:3px}
+.ch.todo{color:var(--muted)}
+.ch.sp.bad{background:rgba(255,71,87,0.28)}
+#ti{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.click-hint{font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.6rem;font-family:var(--mono);letter-spacing:0.5px}
+.prog-track{height:3px;background:var(--border);border-radius:2px;margin-top:1rem;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:2px;width:0%;transition:width .15s}
+
+.result-screen{display:none;position:absolute;inset:0;background:rgba(8,10,15,0.97);border-radius:var(--radius-lg);align-items:center;justify-content:center;flex-direction:column;gap:1.2rem;z-index:20;backdrop-filter:blur(4px)}
+.result-screen.show{display:flex}
+.res-wpm{font-family:var(--mono);font-size:4rem;font-weight:700;color:var(--accent);line-height:1}
+.res-label{font-size:0.7rem;color:var(--text2);letter-spacing:2px;font-family:var(--mono);text-transform:uppercase;margin-top:-6px}
+.res-row{display:flex;gap:2.5rem}
+.res-item{text-align:center}
+.res-val{font-family:var(--mono);font-size:1.5rem;font-weight:700}
+.res-key{font-size:0.62rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.res-grade{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--amber)}
+.res-tip{font-size:0.78rem;color:var(--text2);max-width:320px;text-align:center;line-height:1.6;padding:10px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border2)}
+
+/* KEYBOARD */
+.kb-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem}
+.kb-title{font-size:0.65rem;font-family:var(--mono);color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.2rem}
+.kb{display:flex;flex-direction:column;gap:5px;align-items:center}
+.kb-row{display:flex;gap:4px}
+.k{min-width:34px;height:34px;background:var(--surface2);border:1px solid var(--border2);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.63rem;color:var(--text2);transition:all .12s;cursor:default;flex-shrink:0;font-weight:500;position:relative;user-select:none}
+.k.wide1{min-width:48px}
+.k.wide2{min-width:60px}
+.k.wide3{min-width:75px}
+.k.wide4{min-width:120px}
+.k.sp{min-width:240px}
+.fl0{background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.25);color:rgba(200,150,255,0.9)}
+.fl1{background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);color:rgba(100,200,255,0.9)}
+.fl2{background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.2);color:rgba(80,220,160,0.9)}
+.fl3{background:rgba(251,146,60,0.08);border-color:rgba(251,146,60,0.2);color:rgba(255,170,80,0.9)}
+.fr3{background:rgba(251,113,133,0.08);border-color:rgba(251,113,133,0.2);color:rgba(255,130,130,0.9)}
+.fr2{background:rgba(74,222,128,0.07);border-color:rgba(74,222,128,0.18);color:rgba(100,220,120,0.9)}
+.fr1{background:rgba(250,204,21,0.07);border-color:rgba(250,204,21,0.18);color:rgba(240,200,60,0.9)}
+.fr0{background:rgba(244,114,182,0.07);border-color:rgba(244,114,182,0.18);color:rgba(240,130,190,0.9)}
+.k.lit{background:var(--accent)!important;color:#000!important;border-color:var(--accent)!important;transform:scale(1.1);box-shadow:0 0 14px rgba(0,212,255,0.45);z-index:2}
+.k.home{box-shadow:0 0 0 2px rgba(0,212,255,0.3) inset}
+.kb-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:1rem}
+.kl{display:flex;align-items:center;gap:5px;font-size:0.62rem;color:var(--text2)}
+.kl-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+/* SIDEBAR PANELS */
+.side-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem}
+.side-panel h4{font-size:0.7rem;font-family:var(--mono);color:var(--text2);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1rem}
+.next-key-display{text-align:center;padding:0.5rem 0}
+.nk-char{font-family:var(--mono);font-size:3.5rem;font-weight:700;color:var(--accent);line-height:1;margin-bottom:0.5rem}
+.nk-finger{font-size:0.75rem;color:var(--text2);margin-bottom:0.3rem}
+.nk-hint{font-size:0.68rem;color:var(--muted);font-family:var(--mono)}
+.recent-errors{display:flex;flex-direction:column;gap:6px}
+.re-item{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--surface2);border-radius:6px;border:1px solid var(--border)}
+.re-char{font-family:var(--mono);font-size:0.9rem;font-weight:700;color:var(--red);min-width:18px}
+.re-bar-wrap{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.re-bar{height:100%;background:var(--red);border-radius:2px;transition:width .3s}
+.re-count{font-family:var(--mono);font-size:0.65rem;color:var(--text2)}
+
+/* ===== LEVELS PAGE ===== */
+.curriculum-header{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.curr-filter{display:flex;gap:7px;flex-wrap:wrap}
+.cf-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);font-size:0.74rem;font-weight:500;padding:6px 14px;border-radius:20px;cursor:pointer;transition:.2s;font-family:var(--sans)}
+.cf-btn.active,.cf-btn:hover{background:var(--accent-dim);border-color:rgba(0,212,255,0.3);color:var(--accent)}
+.track-section{margin-bottom:3rem}
+.track-title{display:flex;align-items:center;gap:12px;margin-bottom:1.2rem}
+.track-title h3{font-size:1rem;font-weight:600;color:var(--text)}
+.track-title .track-count{font-family:var(--mono);font-size:0.68rem;color:var(--text2)}
+.levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.lcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.lcard.locked{opacity:0.45;cursor:not-allowed}
+.lcard.done{border-color:rgba(0,232,122,0.25)}
+.lcard:hover:not(.locked){border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+.lcard-num{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem}
+.lcard-icon{font-size:1.4rem;margin-bottom:0.6rem}
+.lcard h4{font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:0.35rem;letter-spacing:0.1px}
+.lcard-desc{font-size:0.74rem;color:var(--text2);line-height:1.65;margin-bottom:0.9rem}
+.lcard-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0.8rem}
+.lcard-meta{display:flex;align-items:center;justify-content:space-between}
+.lcard-check{position:absolute;top:12px;right:12px;width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:#000;font-weight:700}
+.prog-mini{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.prog-mini-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--green))}
+
+/* ===== TIPS PAGE ===== */
+.tips-layout{display:grid;grid-template-columns:240px 1fr;gap:2rem;align-items:start}
+.tips-sidebar{position:sticky;top:70px}
+.tips-nav-group{margin-bottom:1.5rem}
+.tng-label{font-size:0.6rem;font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;padding:0 6px}
+.tnav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;cursor:pointer;font-size:0.8rem;font-weight:500;color:var(--text2);transition:all .2s;border:1px solid transparent;margin-bottom:3px;user-select:none}
+.tnav-item:hover{background:var(--surface2);color:var(--text)}
+.tnav-item.active{background:var(--surface);border-color:var(--border);color:var(--text);border-left:2px solid var(--accent)}
+.tnav-icon{font-size:0.9rem;width:18px;text-align:center;flex-shrink:0}
+.tips-content-area{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;min-height:500px}
+.tip-panel{display:none}
+.tip-panel.active{display:block}
+.tip-panel h2{font-family:var(--serif);font-size:1.9rem;font-weight:300;color:var(--text);margin-bottom:0.5rem}
+.tip-panel .tip-intro{font-size:0.9rem;color:var(--text2);line-height:1.8;margin-bottom:1.75rem;max-width:600px}
+.tip-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+.tip-list li{display:flex;gap:12px;font-size:0.83rem;color:var(--text2);line-height:1.7;padding:12px 16px;background:var(--surface2);border-radius:8px;border-left:2px solid var(--accent)}
+.tip-list li strong{color:var(--text);font-weight:600;display:block;margin-bottom:2px}
+.tip-list li.warn{border-left-color:var(--amber)}
+.tip-list li.danger{border-left-color:var(--red)}
+.tip-list li.ok{border-left-color:var(--green)}
+.tip-num{font-family:var(--mono);font-size:0.7rem;font-weight:700;color:var(--accent);min-width:20px;flex-shrink:0;margin-top:2px}
+
+/* HAND DIAGRAM */
+.hand-diagram{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0}
+.hand-card{background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:1.5rem}
+.hand-card h4{font-size:0.68rem;font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:1.2rem;text-align:center}
+.hand-fingers{display:flex;gap:8px;justify-content:center;align-items:flex-end}
+.hf{display:flex;flex-direction:column;align-items:center;gap:5px}
+.hf-block{width:36px;border-radius:7px 7px 0 0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.6rem;font-weight:700;cursor:default;transition:all .2s;padding:5px 2px}
+.hf-block:hover{filter:brightness(1.3);transform:scaleY(1.05);transform-origin:bottom}
+.hf-label{font-size:0.55rem;font-family:var(--mono);color:var(--muted);text-align:center;line-height:1.3}
+.home-bump{font-size:0.45rem;display:block;color:var(--accent);margin-top:1px}
+
+/* CHAR TABLE */
+.char-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:1rem}
+.char-table th{text-align:left;padding:9px 14px;background:var(--surface2);color:var(--text2);font-size:0.63rem;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;font-weight:500;border-bottom:1px solid var(--border2)}
+.char-table td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+.char-table td:first-child{font-family:var(--mono);color:var(--text);font-weight:700;font-size:0.9rem}
+.char-table tr:last-child td{border-bottom:none}
+.pri-crit{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,71,87,0.2);border-radius:4px;font-size:0.63rem;font-family:var(--mono);padding:2px 7px;letter-spacing:0.5px}
+.pri-hi{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,179,0,0.2);border-radius:4px;font-size:0.63rem;font-family:var(--mono);padding:2px 7px}
+.pri-med{background:var(--surface2);color:var(--text2);border:1px solid var(--border2);border-radius:4px;font-size:0.63rem;font-family:var(--mono);padding:2px 7px}
+.speed-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.speed-box{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:1.2rem}
+.speed-box .week{font-family:var(--mono);font-size:0.65rem;letter-spacing:1px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem}
+.speed-box h5{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:0.35rem}
+.speed-box p{font-size:0.75rem;color:var(--text2);line-height:1.65}
+.posture-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0}
+.posture-item{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:1.2rem;display:flex;gap:10px}
+.posture-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.posture-item h5{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:0.3rem}
+.posture-item p{font-size:0.73rem;color:var(--text2);line-height:1.6}
+
+/* ===== STATS PAGE ===== */
+.stats-overview{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem}
+.stat-big{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;text-align:center}
+.stat-big .sv{font-family:var(--mono);font-size:2rem;font-weight:700;line-height:1;margin-bottom:4px}
+.stat-big .sk{font-size:0.62rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.stats-grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.stats-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem}
+.stats-card h4{font-size:0.68rem;font-family:var(--mono);color:var(--text2);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1.2rem}
+.chart-wrap{height:100px;display:flex;align-items:flex-end;gap:5px;position:relative}
+.wpm-bar-g{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.wpm-bar{width:100%;background:rgba(0,212,255,0.15);border-radius:3px 3px 0 0;border:1px solid rgba(0,212,255,0.25);min-height:4px;position:relative;transition:.3s}
+.wpm-bar::before{content:attr(data-v);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:0.55rem;font-family:var(--mono);color:var(--text2);white-space:nowrap}
+.wpm-bar-lbl{font-size:0.52rem;color:var(--muted);font-family:var(--mono)}
+.heatmap-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:4px;margin-top:0.5rem}
+.hm{aspect-ratio:1;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-family:var(--mono);cursor:default;transition:.2s;font-weight:700}
+.hm:hover{transform:scale(1.2)}
+.hm0{background:var(--surface2);color:var(--muted)}
+.hm1{background:rgba(0,212,255,0.12);color:rgba(0,212,255,0.6)}
+.hm2{background:rgba(0,212,255,0.28);color:rgba(0,212,255,0.9)}
+.hm3{background:rgba(0,212,255,0.55);color:rgba(0,0,0,0.8)}
+.hm4{background:var(--accent);color:#000}
+.hm-row-label{font-size:0.55rem;color:var(--muted);font-family:var(--mono);display:flex;align-items:center;justify-content:flex-end;padding-right:4px}
+.err-freq-table{width:100%;border-collapse:collapse}
+.eft th{padding:7px 12px;text-align:left;font-size:0.62rem;font-family:var(--mono);color:var(--text2);letter-spacing:1px;background:var(--surface2);text-transform:uppercase;font-weight:500}
+.eft td{padding:7px 12px;border-bottom:1px solid var(--border);font-size:0.78rem;color:var(--text2);vertical-align:middle}
+.eft td:first-child{font-family:var(--mono);font-weight:700;font-size:0.95rem;color:var(--text)}
+.err-bar-wrap{width:100px;height:5px;background:var(--border);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}
+.err-bar-fill{height:100%;background:var(--red);border-radius:2px}
+.lang-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ls-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:7px;border:1px solid var(--border)}
+.ls-name{font-family:var(--mono);font-size:0.72rem;color:var(--text);font-weight:700;min-width:70px}
+.ls-bar-w{flex:1;height:5px;background:var(--border);border-radius:2px;overflow:hidden}
+.ls-bar-f{height:100%;border-radius:2px;background:var(--accent)}
+.ls-wpm{font-family:var(--mono);font-size:0.65rem;color:var(--text2);min-width:38px;text-align:right}
+.achievements-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ach{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:1rem;text-align:center;transition:.2s}
+.ach.earned{border-color:rgba(255,179,0,0.3);background:rgba(255,179,0,0.04)}
+.ach-icon{font-size:1.6rem;margin-bottom:0.4rem;filter:grayscale(1);opacity:0.35;transition:.2s}
+.ach.earned .ach-icon{filter:none;opacity:1}
+.ach-name{font-size:0.68rem;font-weight:600;color:var(--text2)}
+.ach.earned .ach-name{color:var(--text)}
+.ach-cond{font-size:0.6rem;color:var(--muted);margin-top:2px}
+
+/* ===== CHALLENGES PAGE ===== */
+.challenges-layout{display:grid;grid-template-columns:1fr 320px;gap:2rem}
+.challenge-list{display:flex;flex-direction:column;gap:1rem}
+.chal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;cursor:pointer;transition:all .25s}
+.chal:hover{border-color:var(--border2);transform:translateY(-2px)}
+.chal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:0.75rem;gap:1rem}
+.chal-title{font-size:0.95rem;font-weight:600;color:var(--text)}
+.chal-desc{font-size:0.78rem;color:var(--text2);line-height:1.7;margin-bottom:1rem}
+.chal-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chal-icon{font-size:2rem;flex-shrink:0}
+.chal-info{display:flex;gap:12px}
+.ci{font-size:0.7rem;color:var(--text2);display:flex;align-items:center;gap:4px}
+.ci span{font-family:var(--mono);font-weight:700;color:var(--text)}
+.leaderboard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;position:sticky;top:70px}
+.lb-title{font-size:0.68rem;font-family:var(--mono);color:var(--text2);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1.2rem}
+.lb-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-family:var(--mono);font-size:0.75rem;font-weight:700;color:var(--muted);min-width:22px;text-align:center}
+.lb-rank.top1{color:var(--amber)}
+.lb-rank.top2{color:var(--text2)}
+.lb-rank.top3{color:#cd7f32}
+.lb-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;flex-shrink:0;font-family:var(--mono)}
+.lb-name{font-size:0.8rem;font-weight:500;color:var(--text);flex:1}
+.lb-wpm{font-family:var(--mono);font-size:0.78rem;font-weight:700;color:var(--accent)}
+.daily-chal{background:linear-gradient(135deg,rgba(0,212,255,0.06),rgba(168,85,247,0.06));border:1px solid rgba(0,212,255,0.2);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.dc-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem}
+.dc-title{font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:0.35rem}
+.dc-desc{font-size:0.78rem;color:var(--text2);line-height:1.65;margin-bottom:1rem}
+.dc-timer{font-family:var(--mono);font-size:0.72rem;color:var(--text2)}
+.dc-timer span{color:var(--red);font-weight:700}
+
+/* ===== FOOTER ===== */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:4rem 0 2rem;margin-top:5rem}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem}
+.footer-brand{}
+.footer-logo{display:flex;align-items:center;gap:8px;margin-bottom:0.75rem}
+.footer-desc{font-size:0.78rem;color:var(--text2);line-height:1.75;max-width:240px;margin-bottom:1.25rem}
+.footer-social{display:flex;gap:8px}
+.fsoc{width:32px;height:32px;background:var(--surface2);border:1px solid var(--border2);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;cursor:pointer;transition:.2s;color:var(--text2)}
+.fsoc:hover{border-color:var(--accent);color:var(--accent)}
+footer h5{font-size:0.65rem;font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:0.9rem;font-weight:500}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+footer ul li a{font-size:0.78rem;color:var(--text2);transition:.2s;display:inline-flex;align-items:center;gap:5px}
+footer ul li a:hover{color:var(--accent)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:1.5rem;margin-top:3rem}
+.footer-bottom p{font-size:0.72rem;color:var(--muted)}
+.footer-bottom code{font-family:var(--mono);font-size:0.65rem;background:var(--surface2);padding:2px 7px;border-radius:4px;border:1px solid var(--border2)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:11px 16px;font-size:0.78rem;color:var(--text);z-index:9999;display:flex;gap:9px;align-items:center;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.175,.885,.32,1.275)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.toast-dot.g{background:var(--green)}
+.toast-dot.r{background:var(--red)}
+.toast-dot.a{background:var(--amber)}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:888;backdrop-filter:blur(4px);align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:2rem;max-width:480px;width:90%;position:relative}
+.modal h3{font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:0.5rem}
+.modal p{font-size:0.83rem;color:var(--text2);line-height:1.7;margin-bottom:1.5rem}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);width:28px;height:28px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;transition:.2s}
+.modal-close:hover{color:var(--text)}
+
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .levels-grid{grid-template-columns:1fr 1fr}
+  .practice-layout{grid-template-columns:1fr}
+  .tips-layout{grid-template-columns:1fr}
+  .tips-sidebar{position:static}
+  .stats-overview{grid-template-columns:repeat(3,1fr)}
+  .challenges-layout{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .footer-inner>div:first-child{grid-column:1/-1}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  nav ul{gap:0}
+  nav ul li a{padding:6px 9px;font-size:0.75rem}
+  h1.hero-heading{font-size:2.8rem}
+}
+@media(max-width:600px){
+  .hero-stats{grid-template-columns:repeat(3,1fr)}
+  .features-grid,.levels-grid,.testi-grid{grid-template-columns:1fr}
+  .section-title{font-size:1.9rem}
+  nav ul li.hide-sm{display:none}
+  .nav-mobile-toggle{display:block}
+  .stats-overview{grid-template-columns:repeat(2,1fr)}
+  .stats-grid2{grid-template-columns:1fr}
+  .heatmap-grid{grid-template-columns:repeat(9,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo" onclick="showPage('home')">
+    <div class="logo-mark"><svg viewBox="0 0 16 16"><path d="M2 4h12v1H2zM2 7.5h8v1H2zM2 11h10v1H2z"/></svg></div>
+    <div class="logo-text">Code<span>Keys</span></div>
+  </div>
+  <ul id="nav-links">
+    <li><a href="#" onclick="showPage('home');return false" id="nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('practice');return false" id="nav-practice">Practice</a></li>
+    <li><a href="#" onclick="showPage('levels');return false" id="nav-levels">Levels</a></li>
+    <li><a href="#" onclick="showPage('challenges');return false" id="nav-challenges">Challenges</a></li>
+    <li><a href="#" onclick="showPage('tips');return false" id="nav-tips">Hand Guide</a></li>
+    <li><a href="#" onclick="showPage('stats');return false" id="nav-stats">Progress</a></li>
+    <li><a href="#" onclick="showPage('practice');return false" class="nav-cta">Start →</a></li>
+  </ul>
+</nav>
+
+<!-- ============================================================ HOME ============================================================ -->
+<div id="page-home" class="page active">
+  <div class="container">
+
+    <!-- HERO -->
+    <div class="section hero">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-pill"><div class="hero-pill-dot pulse"></div> Built for developers — not secretaries</div>
+          <h1 class="hero-heading">Type code.<br><em>Think faster.</em><br>Ship sooner.</h1>
+          <p class="hero-desc">The only typing platform engineered from the ground up for programmers. Real code snippets, special characters, bracket training, language-specific syntax — from 30 WPM to 120+ WPM.</p>
+          <div class="hero-btns">
+            <button class="btn btn-primary" onclick="showPage('practice')">Start Practicing →</button>
+            <button class="btn btn-secondary" onclick="showPage('levels')">View Curriculum</button>
+          </div>
+          <div class="hero-stats">
+            <div class="hstat"><div class="hstat-num">12+</div><div class="hstat-lbl">Languages</div></div>
+            <div class="hstat"><div class="hstat-num">50+</div><div class="hstat-lbl">Levels</div></div>
+            <div class="hstat"><div class="hstat-num">120<span style="font-size:1rem">wpm</span></div><div class="hstat-lbl">Max Target</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="hero-terminal">
+            <div class="term-bar">
+              <div class="term-dots"><div class="td td-r"></div><div class="td td-a"></div><div class="td td-g"></div></div>
+              <div class="term-name">practice.js — CodeKeys</div>
+            </div>
+            <div class="term-body">
+<div class="cl"><span class="ln">1</span><span><span class="kw">async function</span> <span class="fn">fetchUser</span>(<span class="kw">id</span>) {</span></div>
+<div class="cl"><span class="ln">2</span><span>  <span class="kw">try</span> {</span></div>
+<div class="cl"><span class="ln">3</span><span>    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/users/<span class="op">${</span>id<span class="op">}</span>`</span>);</span></div>
+<div class="cl"><span class="ln">4</span><span>    <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> Error(<span class="str">'Not found'</span>);</span></div>
+<div class="cl"><span class="ln">5</span><span>    <span class="kw">return await</span> res.<span class="fn">json</span>();</span></div>
+<div class="cl"><span class="ln">6</span><span>  } <span class="kw">catch</span> (err) {</span></div>
+<div class="cl"><span class="ln">7</span><span>    <span class="cmt">// handle error gracefully</span><span class="cursor"></span></span></div>
+<div class="cl"><span class="ln">8</span><span>  }</span></div>
+<div class="cl"><span class="ln">9</span><span>}</span></div>
+            </div>
+          </div>
+          <div class="lang-pills">
+            <span class="lpill">JavaScript</span><span class="lpill">Python</span><span class="lpill">Rust</span><span class="lpill">Go</span>
+            <span class="lpill">TypeScript</span><span class="lpill">C++</span><span class="lpill">Java</span><span class="lpill">SQL</span>
+            <span class="lpill">HTML</span><span class="lpill">CSS</span><span class="lpill">Ruby</span><span class="lpill">PHP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FEATURES -->
+    <div class="section">
+      <div class="section-label">Platform Features</div>
+      <div class="section-title">Everything a coder<br>needs to type without <em>thinking</em></div>
+      <div class="section-sub">Most typing tutors ignore brackets, semicolons, and template literals. We don't. Every drill uses real production code patterns.</div>
+      <div class="features-grid">
+        <div class="feat" style="--fg:rgba(0,212,255,0.06)">
+          <div class="feat-icon" style="background:rgba(0,212,255,0.1)">⌨️</div>
+          <h3>Real-time Finger Guide</h3>
+          <p>Color-coded keyboard shows exactly which finger owns each key. The next key glows as you type — no guessing, just muscle memory.</p>
+          <span class="feat-accent" style="background:var(--accent)"></span>
+        </div>
+        <div class="feat" style="--fg:rgba(0,232,122,0.05)">
+          <div class="feat-icon" style="background:rgba(0,232,122,0.1)">📊</div>
+          <h3>Error Analysis Engine</h3>
+          <p>Tracks every mistake, identifies your weakest characters, and auto-generates targeted drills to fix them. No guesswork.</p>
+          <span class="feat-accent" style="background:var(--green)"></span>
+        </div>
+        <div class="feat" style="--fg:rgba(168,85,247,0.05)">
+          <div class="feat-icon" style="background:rgba(168,85,247,0.1)">🎯</div>
+          <h3>12 Languages, Real Code</h3>
+          <p>JS, Python, Rust, Go, TS, C++, Java, SQL, HTML, CSS, Ruby, PHP — sourced from actual production patterns, not toy examples.</p>
+          <span class="feat-accent" style="background:var(--purple)"></span>
+        </div>
+        <div class="feat" style="--fg:rgba(255,179,0,0.05)">
+          <div class="feat-icon" style="background:rgba(255,179,0,0.1)">⚡</div>
+          <h3>Timed Sprint Modes</h3>
+          <p>15s, 30s, 60s, and 2-minute sprints. Race the clock, beat your personal best. Leaderboard for competitive edge.</p>
+          <span class="feat-accent" style="background:var(--amber)"></span>
+        </div>
+        <div class="feat" style="--fg:rgba(255,71,87,0.05)">
+          <div class="feat-icon" style="background:rgba(255,71,87,0.1)">🔒</div>
+          <h3>Strict Accuracy Mode</h3>
+          <p>Backspace disabled. Forces you to type correctly first, build speed second. Breaks the most common beginner bad habit.</p>
+          <span class="feat-accent" style="background:var(--red)"></span>
+        </div>
+        <div class="feat" style="--fg:rgba(0,212,255,0.04)">
+          <div class="feat-icon" style="background:rgba(0,212,255,0.08)">📈</div>
+          <h3>Full Career Dashboard</h3>
+          <p>WPM over time, per-key heatmaps, language breakdowns, accuracy streaks, achievement badges — your entire coding typing journey.</p>
+          <span class="feat-accent" style="background:var(--accent)"></span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- HOW IT WORKS -->
+    <div class="section">
+      <div class="section-label">How It Works</div>
+      <div class="section-title">Go from hunt-and-peck<br>to <em>eyes on screen</em> in weeks</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Start at your level</h4>
+          <p>Quick assessment places you in the right curriculum track — beginner home row to advanced syntax.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>Type real code</h4>
+          <p>Snippets in your chosen language. The keyboard guide shows every finger position in real time.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>Analyze mistakes</h4>
+          <p>After each test, your error report shows which characters slow you down and why.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h4>Level up daily</h4>
+          <p>Structured progression unlocks new challenges. Track WPM growth week by week.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LANGUAGE SHOWCASE -->
+    <div class="section">
+      <div class="section-label">Language Support</div>
+      <div class="section-title">12 languages.<br>All their <em>weird characters</em>.</div>
+      <div class="section-sub">We specifically built exercises for the symbols that kill beginners — backticks, angle brackets, fat arrows, type annotations. Every language's quirks, covered.</div>
+      <div class="lang-showcase">
+        <div class="lang-list" id="lang-showcase-list">
+          <div class="lang-item active" onclick="selectLang('js',this)"><div class="lang-dot"></div><span class="lang-item-name">JavaScript</span><span class="lang-item-desc">async/await, arrow fns</span></div>
+          <div class="lang-item" onclick="selectLang('py',this)"><div class="lang-dot"></div><span class="lang-item-name">Python</span><span class="lang-item-desc">colons, comprehensions</span></div>
+          <div class="lang-item" onclick="selectLang('rust',this)"><div class="lang-dot"></div><span class="lang-item-name">Rust</span><span class="lang-item-desc">lifetimes, match arms</span></div>
+          <div class="lang-item" onclick="selectLang('ts',this)"><div class="lang-dot"></div><span class="lang-item-name">TypeScript</span><span class="lang-item-desc">generics, interfaces</span></div>
+          <div class="lang-item" onclick="selectLang('go',this)"><div class="lang-dot"></div><span class="lang-item-name">Go</span><span class="lang-item-desc">goroutines, structs</span></div>
+          <div class="lang-item" onclick="selectLang('sql',this)"><div class="lang-dot"></div><span class="lang-item-name">SQL</span><span class="lang-item-desc">joins, window functions</span></div>
+        </div>
+        <div class="lang-preview">
+          <div class="lp-header">
+            <div class="td td-r" style="width:8px;height:8px;border-radius:50%"></div>
+            <div class="td td-a" style="width:8px;height:8px;border-radius:50%"></div>
+            <div class="td td-g" style="width:8px;height:8px;border-radius:50%"></div>
+            <div class="lp-label" id="lp-label">snippet.js</div>
+            <div class="lp-badge" id="lp-badge">JavaScript</div>
+          </div>
+          <div class="lp-body" id="lang-preview-code"><span class="kw">async function</span> <span class="fn">debounce</span>(fn, delay) {
+  <span class="kw">let</span> timer = <span class="kw">null</span>;
+  <span class="kw">return function</span>(...args) {
+    <span class="fn">clearTimeout</span>(timer);
+    timer = <span class="fn">setTimeout</span>(() <span class="op">=></span> {
+      fn.<span class="fn">apply</span>(<span class="kw">this</span>, args);
+    }, delay);
+  };
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- TESTIMONIALS -->
+    <div class="section">
+      <div class="section-label">Developer Stories</div>
+      <div class="section-title">From 40 WPM to shipping<br><em>faster than teammates</em></div>
+      <div class="testi-grid">
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"I went from 45 to 88 WPM in 6 weeks. The bracket training alone saved me hours per week — I used to hunt for { and [ constantly."</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:rgba(0,212,255,0.12);color:var(--accent)">AK</div>
+            <div><div class="testi-name">Arjun K.</div><div class="testi-role">React Developer, 2 yrs exp</div></div>
+          </div>
+        </div>
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"The error heatmap showed me I was always mistyping semicolons. Targeted drills fixed it in 3 days. No other platform does this for code."</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:rgba(0,232,122,0.1);color:var(--green)">SL</div>
+            <div><div class="testi-name">Sarah L.</div><div class="testi-role">Backend Engineer, Go dev</div></div>
+          </div>
+        </div>
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"The finger guide was a game-changer. I was using two fingers for years. 8 weeks later I'm at 92 WPM with proper technique. Worth it."</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:rgba(168,85,247,0.1);color:var(--purple)">MR</div>
+            <div><div class="testi-name">Marco R.</div><div class="testi-role">Full-stack dev, bootcamp grad</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2>Ready to type like a senior dev?</h2>
+      <p>Free forever. No account needed. Just open it and type.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="showPage('practice')">Start Practicing Now →</button>
+        <button class="btn btn-secondary" onclick="showPage('levels')">View the Curriculum</button>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /page-home -->
+
+<!-- ============================================================ PRACTICE ============================================================ -->
+<div id="page-practice" class="page">
+  <div class="container">
+    <div class="section">
+      <div class="section-label">Practice Arena</div>
+      <div class="section-title">Type real code.</div>
+      <div class="practice-layout">
+        <!-- MAIN -->
+        <div>
+          <div class="arena" id="arena">
+            <div class="arena-top">
+              <div class="arena-stats">
+                <div class="astat wpm"><div class="astat-val" id="wpm-v">0</div><div class="astat-key">WPM</div></div>
+                <div class="astat acc"><div class="astat-val" id="acc-v">100%</div><div class="astat-key">Accuracy</div></div>
+                <div class="astat err"><div class="astat-val" id="err-v">0</div><div class="astat-key">Errors</div></div>
+                <div class="timer-ring" id="timer-ring">30</div>
+              </div>
+              <div class="arena-controls">
+                <select class="c-sel" id="lang-sel" onchange="loadSnippet()">
+                  <option value="js">JavaScript</option>
+                  <option value="py">Python</option>
+                  <option value="rust">Rust</option>
+                  <option value="go">Go</option>
+                  <option value="ts">TypeScript</option>
+                  <option value="cpp">C++</option>
+                  <option value="java">Java</option>
+                  <option value="sql">SQL</option>
+                </select>
+                <button class="c-btn sel" id="t-15" onclick="setDur(15,this)">15s</button>
+                <button class="c-btn" id="t-30" onclick="setDur(30,this)">30s</button>
+                <button class="c-btn" id="t-60" onclick="setDur(60,this)">60s</button>
+                <button class="c-btn" id="t-120" onclick="setDur(120,this)">2min</button>
+                <button class="c-btn" id="strict-btn" onclick="toggleStrict(this)" title="Backspace disabled">Strict</button>
+                <button class="c-btn" onclick="loadSnippet()" style="color:var(--amber)">↺ New</button>
+              </div>
+            </div>
+            <div class="snippet-tabs" id="stabs">
+              <button class="stab active" onclick="pickType('function',this)">Function</button>
+              <button class="stab" onclick="pickType('class',this)">Class</button>
+              <button class="stab" onclick="pickType('loop',this)">Loop</button>
+              <button class="stab" onclick="pickType('async',this)">Async/Await</button>
+              <button class="stab" onclick="pickType('algo',this)">Algorithm</button>
+              <button class="stab" onclick="pickType('oop',this)">OOP Pattern</button>
+            </div>
+            <div class="code-box" id="code-box" onclick="focusTI()" tabindex="0">
+              <div id="chars"></div>
+              <input id="ti" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+            <p class="click-hint" id="type-hint">↑ click above and start typing</p>
+            <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+            <!-- RESULT -->
+            <div class="result-screen" id="res-screen">
+              <div class="res-wpm" id="res-wpm">0</div>
+              <div class="res-label">words per minute</div>
+              <div class="res-row">
+                <div class="res-item"><div class="res-val" style="color:var(--green)" id="res-acc">100%</div><div class="res-key">Accuracy</div></div>
+                <div class="res-item"><div class="res-val" style="color:var(--red)" id="res-err">0</div><div class="res-key">Errors</div></div>
+                <div class="res-item"><div class="res-val" style="color:var(--amber)" id="res-time">0s</div><div class="res-key">Time</div></div>
+                <div class="res-item"><div class="res-grade" id="res-grade">A</div><div class="res-key">Grade</div></div>
+              </div>
+              <div class="res-tip" id="res-tip">Great work!</div>
+              <div style="display:flex;gap:10px;margin-top:0.5rem">
+                <button class="btn btn-primary" onclick="resetPractice()">Try Again</button>
+                <button class="btn btn-secondary" onclick="loadSnippet();resetPractice()">New Snippet</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- KEYBOARD -->
+          <div class="kb-section" style="margin-top:1.5rem">
+            <div class="kb-title">Live Keyboard Guide — Color = Finger | Glow = Next Key</div>
+            <div class="kb" id="kb">
+              <div class="kb-row">
+                <div class="k wide1" data-k="`">`~</div>
+                <div class="k fl0" data-k="1">1!</div><div class="k fl0" data-k="2">2@</div><div class="k fl0" data-k="3">3#</div><div class="k fl3" data-k="4">4$</div><div class="k fl3" data-k="5">5%</div>
+                <div class="k fr3" data-k="6">6^</div><div class="k fr3" data-k="7">7&amp;</div><div class="k fr2" data-k="8">8*</div><div class="k fr1" data-k="9">9(</div><div class="k fr0" data-k="0">0)</div>
+                <div class="k fr0" data-k="-">-_</div><div class="k fr0" data-k="=">=+</div>
+                <div class="k wide2 fr0" data-k="Backspace">⌫</div>
+              </div>
+              <div class="kb-row">
+                <div class="k wide1">Tab</div>
+                <div class="k fl0" data-k="q">q</div><div class="k fl0" data-k="w">w</div><div class="k fl2" data-k="e">e</div><div class="k fl3" data-k="r">r</div><div class="k fl3" data-k="t">t</div>
+                <div class="k fr3" data-k="y">y</div><div class="k fr3" data-k="u">u</div><div class="k fr2" data-k="i">i</div><div class="k fr1" data-k="o">o</div><div class="k fr0" data-k="p">p</div>
+                <div class="k fr0" data-k="[">[{</div><div class="k fr0" data-k="]">]}</div><div class="k fr0 wide1" data-k="\\">\\|</div>
+              </div>
+              <div class="kb-row">
+                <div class="k wide2 fl0">Caps</div>
+                <div class="k fl0 home" data-k="a">a<span style="display:block;width:4px;height:4px;background:var(--accent);border-radius:50%;margin:1px auto 0"></span></div>
+                <div class="k fl1" data-k="s">s</div><div class="k fl2" data-k="d">d</div><div class="k fl3 home" data-k="f">f<span style="display:block;width:4px;height:4px;background:var(--accent);border-radius:50%;margin:1px auto 0"></span></div><div class="k fl3" data-k="g">g</div>
+                <div class="k fr3" data-k="h">h</div><div class="k fr3 home" data-k="j">j<span style="display:block;width:4px;height:4px;background:var(--accent);border-radius:50%;margin:1px auto 0"></span></div><div class="k fr2" data-k="k">k</div><div class="k fr1" data-k="l">l</div>
+                <div class="k fr0 home" data-k=";">;:</div><div class="k fr0" data-k="'">'&quot;</div>
+                <div class="k wide2 fr0" data-k="Enter">Enter</div>
+              </div>
+              <div class="kb-row">
+                <div class="k wide3 fl0" data-k="Shift">⇧ Shift</div>
+                <div class="k fl0" data-k="z">z</div><div class="k fl0" data-k="x">x</div><div class="k fl2" data-k="c">c</div><div class="k fl3" data-k="v">v</div><div class="k fl3" data-k="b">b</div>
+                <div class="k fr3" data-k="n">n</div><div class="k fr3" data-k="m">m</div><div class="k fr2" data-k=",">,&lt;</div><div class="k fr1" data-k=".">. &gt;</div><div class="k fr0" data-k="/">/? </div>
+                <div class="k wide3 fr0" data-k="Shift">⇧ Shift</div>
+              </div>
+              <div class="kb-row">
+                <div class="k wide2">Ctrl</div><div class="k wide1">Alt</div>
+                <div class="k sp" data-k=" ">Space</div>
+                <div class="k wide1">Alt</div><div class="k wide2">Ctrl</div>
+              </div>
+            </div>
+            <div class="kb-legend">
+              <div class="kl"><div class="kl-dot" style="background:rgba(168,85,247,0.5)"></div>Pinky</div>
+              <div class="kl"><div class="kl-dot" style="background:rgba(56,189,248,0.5)"></div>Ring</div>
+              <div class="kl"><div class="kl-dot" style="background:rgba(52,211,153,0.5)"></div>Middle</div>
+              <div class="kl"><div class="kl-dot" style="background:rgba(251,146,60,0.5)"></div>L-Index</div>
+              <div class="kl"><div class="kl-dot" style="background:rgba(251,113,133,0.5)"></div>R-Index</div>
+              <div class="kl"><div class="kl-dot" style="background:rgba(74,222,128,0.5)"></div>R-Middle</div>
+              <div class="kl"><div class="kl-dot" style="background:rgba(250,204,21,0.5)"></div>R-Ring</div>
+              <div class="kl"><div class="kl-dot" style="background:rgba(244,114,182,0.5)"></div>R-Pinky</div>
+              <div class="kl"><div class="kl-dot" style="background:var(--accent);box-shadow:0 0 6px rgba(0,212,255,0.5)"></div>Next Key</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="practice-sidebar">
+          <div class="side-panel">
+            <h4>Next Key</h4>
+            <div class="next-key-display">
+              <div class="nk-char" id="nk-char">—</div>
+              <div class="nk-finger" id="nk-finger">Start typing to begin</div>
+              <div class="nk-hint" id="nk-hint"></div>
+            </div>
+          </div>
+          <div class="side-panel">
+            <h4>Session Errors</h4>
+            <div class="recent-errors" id="recent-errors">
+              <div style="font-size:0.72rem;color:var(--muted);text-align:center;padding:0.5rem">No errors yet — nice!</div>
+            </div>
+          </div>
+          <div class="side-panel">
+            <h4>Session Stats</h4>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:0.78rem;color:var(--text2)">
+              <div style="display:flex;justify-content:space-between"><span>Tests taken</span><span style="font-family:var(--mono);color:var(--text)" id="ss-tests">0</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Best WPM</span><span style="font-family:var(--mono);color:var(--accent)" id="ss-best">—</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Avg accuracy</span><span style="font-family:var(--mono);color:var(--green)" id="ss-acc">—</span></div>
+              <div style="display:flex;justify-content:space-between"><span>Characters typed</span><span style="font-family:var(--mono);color:var(--text)" id="ss-chars">0</span></div>
+            </div>
+          </div>
+          <div class="side-panel" style="background:rgba(0,212,255,0.04);border-color:rgba(0,212,255,0.15)">
+            <h4 style="color:var(--accent)">Quick Tip</h4>
+            <p style="font-size:0.76rem;color:var(--text2);line-height:1.65" id="quick-tip">Keep your eyes on the code, not the keyboard. Trust your muscle memory.</p>
+            <button class="btn btn-ghost" onclick="nextTip()" style="font-size:0.72rem;padding:6px 12px;margin-top:0.8rem;width:100%;justify-content:center">Next tip →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ LEVELS ============================================================ -->
+<div id="page-levels" class="page">
+  <div class="container">
+    <div class="section">
+      <div class="section-label">Curriculum</div>
+      <div class="section-title">50 levels. Zero shortcuts.</div>
+      <div class="section-sub">Structured from absolute beginner (home row, 30 WPM) to production-ready coder (120 WPM, all special chars).</div>
+
+      <div class="curriculum-header">
+        <div class="curr-filter" id="level-filter">
+          <button class="cf-btn active" onclick="filterLevels('all',this)">All Levels</button>
+          <button class="cf-btn" onclick="filterLevels('beginner',this)">Beginner</button>
+          <button class="cf-btn" onclick="filterLevels('intermediate',this)">Intermediate</button>
+          <button class="cf-btn" onclick="filterLevels('advanced',this)">Advanced</button>
+          <button class="cf-btn" onclick="filterLevels('expert',this)">Expert</button>
+        </div>
+      </div>
+
+      <div id="levels-container"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ CHALLENGES ============================================================ -->
+<div id="page-challenges" class="page">
+  <div class="container">
+    <div class="section">
+      <div class="section-label">Challenges</div>
+      <div class="section-title">Compete. Beat records.<br><em>Level up.</em></div>
+      <div class="challenges-layout">
+        <div>
+          <!-- DAILY -->
+          <div class="daily-chal">
+            <div class="dc-label">🔥 Daily Challenge</div>
+            <div class="dc-title">Recursive Fibonacci in Rust</div>
+            <div class="dc-desc">Type this Rust function with match arms and lifetime annotations. Target: 75 WPM, 98% accuracy. Bonus: finish in under 45 seconds.</div>
+            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+              <button class="btn btn-primary" onclick="showPage('practice');showToast('Daily challenge loaded!','g')">Start Challenge →</button>
+              <div class="dc-timer">Resets in <span id="dc-countdown">14:22:31</span></div>
+            </div>
+          </div>
+
+          <!-- CHALLENGE LIST -->
+          <div class="challenge-list" id="challenge-list"></div>
+        </div>
+
+        <!-- LEADERBOARD -->
+        <div>
+          <div class="leaderboard">
+            <div class="lb-title">🏆 Global Leaderboard</div>
+            <div id="lb-rows"></div>
+          </div>
+          <div class="side-panel" style="margin-top:1rem">
+            <h4>Your Rank</h4>
+            <div style="text-align:center;padding:0.75rem 0">
+              <div style="font-family:var(--mono);font-size:2.5rem;font-weight:700;color:var(--amber)">#—</div>
+              <div style="font-size:0.72rem;color:var(--text2);margin-top:4px">Complete a timed test to earn a rank</div>
+            </div>
+          </div>
+          <div class="side-panel" style="margin-top:1rem">
+            <h4>Streak</h4>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:0.5rem" id="streak-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ TIPS ============================================================ -->
+<div id="page-tips" class="page">
+  <div class="container">
+    <div class="section">
+      <div class="section-label">Hand Guide & Tips</div>
+      <div class="section-title">Type like a surgeon,<br>not a <em>caveman</em>.</div>
+      <div class="tips-layout">
+
+        <!-- SIDEBAR NAV -->
+        <div class="tips-sidebar">
+          <div class="tips-nav-group">
+            <div class="tng-label">Foundation</div>
+            <div class="tnav-item active" onclick="showTipPanel('posture',this)"><span class="tnav-icon">🪑</span>Posture & Setup</div>
+            <div class="tnav-item" onclick="showTipPanel('homerow',this)"><span class="tnav-icon">🏠</span>Home Row Method</div>
+            <div class="tnav-item" onclick="showTipPanel('fingers',this)"><span class="tnav-icon">✋</span>Finger Zones</div>
+          </div>
+          <div class="tips-nav-group">
+            <div class="tng-label">Code-Specific</div>
+            <div class="tnav-item" onclick="showTipPanel('specials',this)"><span class="tnav-icon">{ }</span>Special Characters</div>
+            <div class="tnav-item" onclick="showTipPanel('shift',this)"><span class="tnav-icon">⇧</span>Shift Key Mastery</div>
+            <div class="tnav-item" onclick="showTipPanel('indents',this)"><span class="tnav-icon">→</span>Indentation & Tabs</div>
+          </div>
+          <div class="tips-nav-group">
+            <div class="tng-label">Improvement</div>
+            <div class="tnav-item" onclick="showTipPanel('errors',this)"><span class="tnav-icon">🐛</span>Common Mistakes</div>
+            <div class="tnav-item" onclick="showTipPanel('speed',this)"><span class="tnav-icon">⚡</span>Speed Building</div>
+            <div class="tnav-item" onclick="showTipPanel('habits',this)"><span class="tnav-icon">💀</span>Bad Habits to Kill</div>
+            <div class="tnav-item" onclick="showTipPanel('warmup',this)"><span class="tnav-icon">🔥</span>Warm-Up Drills</div>
+          </div>
+        </div>
+
+        <div class="tips-content-area">
+
+          <!-- POSTURE -->
+          <div class="tip-panel active" id="tip-posture">
+            <h2>Posture & Ergonomic Setup</h2>
+            <p class="tip-intro">Your typing speed ceiling is set before you type a single character. Poor posture creates muscular tension that caps both speed and accuracy — and causes carpal tunnel over years.</p>
+            <div class="posture-grid">
+              <div class="posture-item"><div class="posture-icon">💺</div><div><h5>Chair height</h5><p>Elbows at 90°, forearms roughly parallel to floor. Feet flat on ground. Thighs parallel to floor.</p></div></div>
+              <div class="posture-item"><div class="posture-icon">🖥️</div><div><h5>Monitor distance</h5><p>50–70cm away. Top of screen at or just below eye level. No tilting your head up or down.</p></div></div>
+              <div class="posture-item"><div class="posture-icon">⌨️</div><div><h5>Keyboard position</h5><p>Directly in front of you, about 10–15cm from desk edge. Wrists neutral — never bent up or down while typing.</p></div></div>
+              <div class="posture-item"><div class="posture-icon">🙆</div><div><h5>Wrist position</h5><p>Hover above keys while typing. Wrists rest only during pauses. Never rest while actively pressing keys — causes RSI.</p></div></div>
+            </div>
+            <ul class="tip-list">
+              <li class="ok"><span class="tip-num">→</span><div><strong>Eyes on screen, always.</strong> Every time you look down to find a key, you add 200–400ms per character. At 80 WPM, that's an entire line of code per minute wasted.</div></li>
+              <li class="warn"><span class="tip-num">→</span><div><strong>Relax your shoulders.</strong> Tension travels: shoulders → forearms → fingers → mistakes. Roll your shoulders back and down before every session. Check every 10 minutes.</div></li>
+              <li><span class="tip-num">→</span><div><strong>Take breaks.</strong> 5 minutes every 45–60 minutes. Stand, stretch your wrists, look away from the screen. Long-term typing health is a career asset.</div></li>
+            </ul>
+          </div>
+
+          <!-- HOME ROW -->
+          <div class="tip-panel" id="tip-homerow">
+            <h2>The Home Row Method</h2>
+            <p class="tip-intro">Your fingers rest on A S D F (left) and J K L ; (right). Every key in existence is a stretch from these 8 starting positions. The bumps on F and J are your tactile anchors — find them without looking.</p>
+            <div class="hand-diagram">
+              <div class="hand-card">
+                <h4>Left Hand</h4>
+                <div class="hand-fingers">
+                  <div class="hf"><div class="hf-block" style="height:52px;background:rgba(168,85,247,0.18);border:1px solid rgba(168,85,247,0.4);color:rgba(200,150,255,0.95)">A</div><div class="hf-label">Pinky<br>a,q,z,1</div></div>
+                  <div class="hf"><div class="hf-block" style="height:62px;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);color:rgba(100,200,255,0.95)">S</div><div class="hf-label">Ring<br>s,w,x,2</div></div>
+                  <div class="hf"><div class="hf-block" style="height:70px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:rgba(80,220,160,0.95)">D</div><div class="hf-label">Middle<br>d,e,c,3</div></div>
+                  <div class="hf"><div class="hf-block" style="height:78px;background:rgba(251,146,60,0.12);border:1px solid rgba(251,146,60,0.3);color:rgba(255,170,80,0.95)">F▪</div><div class="hf-label">Index<br>f,r,t,v,b</div></div>
+                </div>
+              </div>
+              <div class="hand-card">
+                <h4>Right Hand</h4>
+                <div class="hand-fingers">
+                  <div class="hf"><div class="hf-block" style="height:78px;background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.25);color:rgba(255,130,130,0.95)">▪J</div><div class="hf-label">Index<br>j,y,u,n,m</div></div>
+                  <div class="hf"><div class="hf-block" style="height:70px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);color:rgba(100,220,120,0.95)">K</div><div class="hf-label">Middle<br>k,i,comma</div></div>
+                  <div class="hf"><div class="hf-block" style="height:62px;background:rgba(250,204,21,0.08);border:1px solid rgba(250,204,21,0.2);color:rgba(240,200,60,0.95)">L</div><div class="hf-label">Ring<br>l,o,period</div></div>
+                  <div class="hf"><div class="hf-block" style="height:52px;background:rgba(244,114,182,0.08);border:1px solid rgba(244,114,182,0.2);color:rgba(240,130,190,0.95)">;</div><div class="hf-label">Pinky<br>;,[,],',/</div></div>
+                </div>
+              </div>
+            </div>
+            <ul class="tip-list">
+              <li class="ok"><span class="tip-num">→</span><div><strong>Return to home after every key.</strong> After reaching for T, Y, B or any stretch key, snap your finger back to its home position immediately. This is the #1 habit that separates 60 WPM from 100 WPM typists.</div></li>
+              <li><span class="tip-num">→</span><div><strong>Thumbs own the Space bar.</strong> Either thumb. Pick one and be consistent. Space should never require a conscious thought.</div></li>
+              <li class="warn"><span class="tip-num">→</span><div><strong>Don't glide your hand.</strong> Your hand position shouldn't shift for any single key. Every key on the board is reachable with one finger stretch from home row. If you're moving your whole hand, you're doing it wrong.</div></li>
+            </ul>
+          </div>
+
+          <!-- FINGERS -->
+          <div class="tip-panel" id="tip-fingers">
+            <h2>Finger Zone Assignments</h2>
+            <p class="tip-intro">Code typing is 40% special characters. Brackets, backticks, semicolons, and underscores live in awkward positions. Here's the complete programmer finger-key assignment:</p>
+            <ul class="tip-list">
+              <li class="danger"><span class="tip-num">★</span><div><strong>Right pinky is your most important finger for coding.</strong> It owns ; : ' " [ ] { } Enter — every delimiter in every programming language. Most beginners neglect it. Train it hardest, deliberately.</div></li>
+              <li><span class="tip-num">→</span><div><strong>Left pinky handles the wild left column:</strong> ` ~ ! @ # Shift(left) Tab CapsLock — these matter for regex, decorators (@), and template literals (`).</div></li>
+              <li><span class="tip-num">→</span><div><strong>Right index covers the center split:</strong> H J Y U N M — plus all right-side Shift combos for ^ & * when left index is free.</div></li>
+              <li class="warn"><span class="tip-num">→</span><div><strong>Underscore _ needs right pinky via Shift+-.</strong> Python and JS use this constantly. Train it as a bigram: press Shift first with left pinky, then - with right pinky. Both pinkies at once, low reach.</div></li>
+              <li><span class="tip-num">→</span><div><strong>Backtick ` is left pinky, top-left corner.</strong> Template literals in JS/TS use it constantly. It lives far away — practice it in isolation 50 times until it becomes automatic.</div></li>
+            </ul>
+          </div>
+
+          <!-- SPECIALS -->
+          <div class="tip-panel" id="tip-specials">
+            <h2>Special Characters for Coders</h2>
+            <p class="tip-intro">This is where beginners lose 30+ WPM compared to experienced devs. These characters appear 3–8 times per line. Drill them until they require zero conscious thought.</p>
+            <table class="char-table">
+              <tr><th>Char(s)</th><th>Keystroke</th><th>Common Use</th><th>Priority</th></tr>
+              <tr><td>{ }</td><td>Shift + [ ]</td><td>Blocks, objects (every language)</td><td><span class="pri-crit">CRITICAL</span></td></tr>
+              <tr><td>( )</td><td>Shift + 9, 0</td><td>Function calls, conditions</td><td><span class="pri-crit">CRITICAL</span></td></tr>
+              <tr><td>[ ]</td><td>[ ]</td><td>Arrays, indexing, types</td><td><span class="pri-crit">CRITICAL</span></td></tr>
+              <tr><td>; :</td><td>; / Shift+;</td><td>Statements, object keys, types</td><td><span class="pri-crit">CRITICAL</span></td></tr>
+              <tr><td>=&gt;</td><td>= then &gt;</td><td>Arrow functions (JS/TS)</td><td><span class="pri-hi">HIGH</span></td></tr>
+              <tr><td>=== !==</td><td>= = = / ! = =</td><td>Strict equality (JS)</td><td><span class="pri-hi">HIGH</span></td></tr>
+              <tr><td>&lt; &gt;</td><td>Shift + , .</td><td>Generics, HTML, comparisons</td><td><span class="pri-hi">HIGH</span></td></tr>
+              <tr><td>_ -</td><td>Shift+- / -</td><td>Identifiers, CSS properties</td><td><span class="pri-hi">HIGH</span></td></tr>
+              <tr><td>` ` `</td><td>` (top-left key)</td><td>Template literals, markdown code</td><td><span class="pri-hi">HIGH</span></td></tr>
+              <tr><td>@ # $ % ^</td><td>Shift + 2,3,4,5,6</td><td>Decorators, regex, vars, bitwise</td><td><span class="pri-med">MEDIUM</span></td></tr>
+              <tr><td>| &amp; ^</td><td>Shift+\ / &amp; / Shift+6</td><td>Bitwise, logical, pipe operator</td><td><span class="pri-med">MEDIUM</span></td></tr>
+              <tr><td>/* */ //</td><td>/ * * / / /</td><td>Comments — typed constantly</td><td><span class="pri-med">MEDIUM</span></td></tr>
+            </table>
+          </div>
+
+          <!-- SHIFT -->
+          <div class="tip-panel" id="tip-shift">
+            <h2>Shift Key Mastery</h2>
+            <p class="tip-intro">Incorrect Shift usage is one of the top 3 speed killers for programmers. The rule is simple but almost everyone breaks it:</p>
+            <ul class="tip-list">
+              <li class="ok"><span class="tip-num">✓</span><div><strong>Opposite-hand rule:</strong> If the letter/symbol is on the RIGHT side of the keyboard, use LEFT Shift. If it's on the LEFT side, use RIGHT Shift. Always. No exceptions. This prevents finger collisions and enables maximum speed.</div></li>
+              <li class="danger"><span class="tip-num">✗</span><div><strong>Never use the same hand for both Shift and the character.</strong> This is the #1 mistake. Typing Shift+W with your left hand only means your left pinky and ring finger are both stretching simultaneously — slow and error-prone.</div></li>
+              <li><span class="tip-num">→</span><div><strong>For symbols like { } ( ) &lt; &gt;:</strong> { is Shift+[, [ is right hand → Left Shift. ( is Shift+9, 9 is right hand → Left Shift. Practice these combos 100 times tonight.</div></li>
+              <li class="warn"><span class="tip-num">→</span><div><strong>Double-Shift characters (like ===):</strong> Type =, then == as: right-hand =, right-hand =, right-hand = — with left Shift held. Your right ring finger hits = three times while left pinky holds Shift. Smooth once mastered.</div></li>
+            </ul>
+          </div>
+
+          <!-- INDENTS -->
+          <div class="tip-panel" id="tip-indents">
+            <h2>Indentation & Tab Mastery</h2>
+            <p class="tip-intro">Beginners pause at every newline wondering about indentation. Experienced coders hit Enter + Tab (or 2 spaces) in a single reflex action. Here's how to build that reflex:</p>
+            <ul class="tip-list">
+              <li><span class="tip-num">→</span><div><strong>Enter → Tab as one motion.</strong> After typing {, your next keystrokes are always: Enter, Tab. Train this as a single gesture. Type it 200 times right now: type {, Enter, Tab, type something, Enter, }. Repeat until automatic.</div></li>
+              <li class="ok"><span class="tip-num">→</span><div><strong>Left pinky owns Tab.</strong> It's on the far left, same finger as Q and `. This finger is underused by beginners — deliberately train it. Tab should fire without any conscious thought.</div></li>
+              <li><span class="tip-num">→</span><div><strong>2 spaces vs 4 spaces vs tab:</strong> Whatever your team uses, train that exact muscle memory. If it's 2 spaces, your thumb+pinky should hit Space twice instantly after Enter. If it's Tab, just one tap of left pinky.</div></li>
+              <li class="warn"><span class="tip-num">→</span><div><strong>Closing brackets:</strong> When you type a closing }, train to immediately outdent. The sequence: }, Enter, Shift+Tab (or delete a tab) should be a reflex. Many editors do this automatically — but you should know the manual version.</div></li>
+            </ul>
+          </div>
+
+          <!-- ERRORS -->
+          <div class="tip-panel" id="tip-errors">
+            <h2>Common Beginner Mistakes</h2>
+            <p class="tip-intro">These are the exact patterns identified from thousands of coding typing sessions. Fix these before building speed — bad habits at 50 WPM become permanent walls at 70 WPM.</p>
+            <ul class="tip-list">
+              <li class="danger"><span class="tip-num">01</span><div><strong>Hunting for brackets.</strong> Eyes leave screen to find { [ ( on the keyboard. Fix: close your eyes and type 100 pairs of each bracket type right now. Don't open your eyes until done. Repeat daily for one week.</div></li>
+              <li class="danger"><span class="tip-num">02</span><div><strong>Backspace addiction.</strong> Immediately deleting every error the moment it happens. This breaks your typing rhythm and slows you massively. Enable Strict Mode — complete the snippet despite errors. Your brain learns faster under pressure.</div></li>
+              <li class="danger"><span class="tip-num">03</span><div><strong>Wrong Shift hand.</strong> Using the same hand for Shift and character. This creates a muscle memory ceiling of ~70 WPM. The only fix is to consciously break the habit and retrain with the opposite-hand rule for 2 weeks.</div></li>
+              <li class="warn"><span class="tip-num">04</span><div><strong>Hesitating before indentation.</strong> Pausing for 300–500ms after Enter to figure out how many tabs/spaces to add. This breaks flow completely. The indentation after each construct should be a reflex, not a decision.</div></li>
+              <li class="warn"><span class="tip-num">05</span><div><strong>Speed before accuracy.</strong> Pushing for 90 WPM at 80% accuracy. This cements error-prone motor patterns that are extremely hard to unlearn. Stay below 95% WPM target until accuracy exceeds 97%.</div></li>
+              <li><span class="tip-num">06</span><div><strong>Inconsistent finger assignments.</strong> Using whichever finger is "close enough" rather than the correct one. Feels faster now, hard wall later. Correct finger every time — even if it means being slower for 2 weeks.</div></li>
+            </ul>
+          </div>
+
+          <!-- SPEED -->
+          <div class="tip-panel" id="tip-speed">
+            <h2>Speed Building Protocol</h2>
+            <p class="tip-intro">This is the 6-week protocol used by developers who went from 40 WPM to 90+ WPM. It works because it respects how motor learning actually functions in the brain.</p>
+            <div class="speed-grid">
+              <div class="speed-box"><div class="week">Week 1–2</div><h5>Accuracy Lock</h5><p>Type at 60% of your max speed. Keep error rate below 2%. Do not chase WPM. You're laying neural pathways — quality over quantity.</p></div>
+              <div class="speed-box"><div class="week">Week 3</div><h5>Pattern Bursts</h5><p>Pick 8 code patterns (if/else, for loops, arrow functions, class declarations). Type each 40 times until they feel completely automatic.</p></div>
+              <div class="speed-box"><div class="week">Week 4</div><h5>Remove the Crutch</h5><p>Cover your keyboard with a cloth or switch to blank keycaps. Cold turkey. This forces the neural pathways to activate instead of your eyes.</p></div>
+              <div class="speed-box"><div class="week">Week 5–6</div><h5>Race Yourself</h5><p>Beat yesterday's WPM by 1 point. Compound improvement. 1 WPM/day = 30 WPM gained per month. Consistency beats intensity every time.</p></div>
+            </div>
+            <ul class="tip-list">
+              <li class="ok"><span class="tip-num">→</span><div><strong>15 minutes daily beats 2 hours on weekends.</strong> Motor memory forms through consistent repetition spaced across days, not cramming. Every. Single. Day — even if it's just one session.</div></li>
+              <li><span class="tip-num">→</span><div><strong>Warm up for 3 minutes before timing yourself.</strong> Cold hands = bad scores. Type something easy for 3 minutes before hitting a timed test. Just like athletes warm up before a race.</div></li>
+            </ul>
+          </div>
+
+          <!-- HABITS -->
+          <div class="tip-panel" id="tip-habits">
+            <h2>Bad Habits to Kill Immediately</h2>
+            <p class="tip-intro">These habits are easy to form in the first few months and take 10x longer to fix. Identify which ones you have and eliminate them now — before they become permanent.</p>
+            <ul class="tip-list">
+              <li class="danger"><span class="tip-num">☠</span><div><strong>Two-finger typing.</strong> If you use fewer than 8 fingers regularly, stop everything and restart from home row basics. There is no patching this — you must rebuild. The ceiling for 2-finger typists is ~50 WPM max.</div></li>
+              <li class="danger"><span class="tip-num">☠</span><div><strong>The keyboard look-down.</strong> Every glance at the keyboard costs you 200–500ms and breaks your reading flow. Put a cloth over your keyboard. Force yourself. It feels awful for a week, then you're cured permanently.</div></li>
+              <li class="danger"><span class="tip-num">☠</span><div><strong>Typing with your nails.</strong> If your fingers curve down so the nail hits the key instead of the fingertip — you'll have accuracy issues forever and high error rates on adjacent keys.</div></li>
+              <li class="warn"><span class="tip-num">!</span><div><strong>Bottoming out every keystroke.</strong> Hammering keys to the bottom with full force. Lighter touch = faster movement between keys. Keys actuate before you bottom out — feel for the actuation point and stop there.</div></li>
+              <li class="warn"><span class="tip-num">!</span><div><strong>Tensing up under time pressure.</strong> When timer pressure increases, most people tense their forearms, which actually slows them down. Consciously relax your forearms during timed tests. Counterintuitive but proven.</div></li>
+            </ul>
+          </div>
+
+          <!-- WARMUP -->
+          <div class="tip-panel" id="tip-warmup">
+            <h2>Warm-Up Drills</h2>
+            <p class="tip-intro">Start every coding session (typing practice or real work) with a 3-minute warm-up. Your fingers are literally cold — muscle performance is measurably worse in the first 5 minutes.</p>
+            <ul class="tip-list">
+              <li class="ok"><span class="tip-num">1</span><div><strong>Home Row Run (60s):</strong> Type the sequence "asdf jkl; asdf jkl;" repeatedly for 60 seconds. No looking. Focus on smooth rhythm, not speed. This activates the home row nerve pathways.</div></li>
+              <li class="ok"><span class="tip-num">2</span><div><strong>Bracket Pairs (60s):</strong> Type: () {} [] () {} [] over and over. Every bracket pair that exists in your target language. This is specifically for code — standard typing tutors never train this.</div></li>
+              <li class="ok"><span class="tip-num">3</span><div><strong>Your Top 3 Error Keys (60s):</strong> Check your error heatmap. Find your 3 most mistyped keys. Construct words or sequences using those keys heavily and type them slowly, accurately, for 60 seconds.</div></li>
+              <li><span class="tip-num">→</span><div><strong>After warm-up, run one easy snippet</strong> (something you've typed before and found easy) at 80% of your target speed. Then begin your real practice sessions or actual coding work.</div></li>
+            </ul>
+          </div>
+
+        </div><!-- tips-content-area -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ STATS ============================================================ -->
+<div id="page-stats" class="page">
+  <div class="container">
+    <div class="section">
+      <div class="section-label">Progress Dashboard</div>
+      <div class="section-title">Your typing career.</div>
+
+      <div class="stats-overview">
+        <div class="stat-big"><div class="sv" style="color:var(--accent)" id="sv-wpm">—</div><div class="sk">Avg WPM</div></div>
+        <div class="stat-big"><div class="sv" style="color:var(--green)" id="sv-best">—</div><div class="sk">Best WPM</div></div>
+        <div class="stat-big"><div class="sv" style="color:var(--amber)" id="sv-acc">—</div><div class="sk">Avg Accuracy</div></div>
+        <div class="stat-big"><div class="sv" id="sv-tests">0</div><div class="sk">Tests Taken</div></div>
+        <div class="stat-big"><div class="sv" style="color:var(--purple)" id="sv-chars">0</div><div class="sk">Chars Typed</div></div>
+      </div>
+
+      <div class="stats-grid2">
+        <div class="stats-card">
+          <h4>WPM History (last 10 tests)</h4>
+          <div class="chart-wrap" id="wpm-history-chart">
+            <div style="font-size:0.72rem;color:var(--muted);margin:auto">Complete tests to see your progress chart</div>
+          </div>
+        </div>
+        <div class="stats-card">
+          <h4>Language Breakdown</h4>
+          <div class="lang-stats" id="lang-stats-grid">
+            <div style="font-size:0.72rem;color:var(--muted);grid-column:1/-1;text-align:center;padding:1rem">Practice different languages to see breakdown</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid2">
+        <div class="stats-card">
+          <h4>Key Accuracy Heatmap — Brighter = More Accurate</h4>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:0.5rem">
+            <div>
+              <div style="font-size:0.6rem;font-family:var(--mono);color:var(--muted);margin-bottom:6px;letter-spacing:1px">TOP ROW</div>
+              <div class="heatmap-grid" id="hm-top"></div>
+            </div>
+            <div>
+              <div style="font-size:0.6rem;font-family:var(--mono);color:var(--muted);margin-bottom:6px;letter-spacing:1px">HOME ROW</div>
+              <div class="heatmap-grid" id="hm-home"></div>
+            </div>
+            <div>
+              <div style="font-size:0.6rem;font-family:var(--mono);color:var(--muted);margin-bottom:6px;letter-spacing:1px">BOTTOM ROW</div>
+              <div class="heatmap-grid" id="hm-bot"></div>
+            </div>
+            <div>
+              <div style="font-size:0.6rem;font-family:var(--mono);color:var(--muted);margin-bottom:6px;letter-spacing:1px">SYMBOLS</div>
+              <div class="heatmap-grid" id="hm-sym"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stats-card">
+          <h4>Most Mistyped Characters</h4>
+          <table class="err-freq-table eft" id="err-table">
+            <tr><th>Char</th><th>Mistyped</th><th>Suggestion</th></tr>
+            <tr><td colspan="3" style="font-size:0.72rem;color:var(--muted);text-align:center;padding:1rem">No error data yet — start typing!</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="stats-card" style="margin-bottom:1.5rem">
+        <div style="padding:1.5rem">
+          <h4 style="font-size:0.68rem;font-family:var(--mono);color:var(--text2);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1.2rem">Achievements</h4>
+          <div class="achievements-grid" id="achievements-grid"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="logo-mark"><svg viewBox="0 0 16 16" fill="#000" style="width:16px;height:16px"><path d="M2 4h12v1H2zM2 7.5h8v1H2zM2 11h10v1H2z"/></svg></div>
+          <div class="logo-text">Code<span>Keys</span></div>
+        </div>
+        <p class="footer-desc">The typing platform built from the ground up for developers. Real code. Real syntax. Real speed.</p>
+        <div class="footer-social">
+          <div class="fsoc" title="GitHub">⌥</div>
+          <div class="fsoc" title="Twitter">𝕏</div>
+          <div class="fsoc" title="Discord">◈</div>
+        </div>
+      </div>
+      <div>
+        <h5>Learn</h5>
+        <ul>
+          <li><a href="#" onclick="showPage('practice');return false">Practice Arena</a></li>
+          <li><a href="#" onclick="showPage('levels');return false">50-Level Curriculum</a></li>
+          <li><a href="#" onclick="showPage('tips');return false">Hand Position Guide</a></li>
+          <li><a href="#" onclick="showPage('tips');showTipPanel('speed',document.querySelector('.tnav-item:nth-child(4)'));return false">Speed Protocol</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Languages</h5>
+        <ul>
+          <li><a href="#">JavaScript / TS</a></li>
+          <li><a href="#">Python</a></li>
+          <li><a href="#">Rust</a></li>
+          <li><a href="#">Go</a></li>
+          <li><a href="#">SQL</a></li>
+          <li><a href="#">C++ / Java</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Methodology</a></li>
+          <li><a href="#">Keyboard Guide</a></li>
+          <li><a href="#" onclick="showPage('challenges');return false">Daily Challenges</a></li>
+          <li><a href="#">Leaderboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>About</h5>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Open Source</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 CodeKeys — Built for developers who ship.</p>
+      <code>v1.0.0 · Open Source · Free Forever</code>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><div class="toast-dot g" id="toast-dot"></div><span id="toast-msg">Done!</span></div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const SNIPS = {
+  js:{
+    function:`function debounce(fn, delay) {\n  let timer = null;\n  return function(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => {\n      fn.apply(this, args);\n    }, delay);\n  };\n}`,
+    class:`class EventEmitter {\n  constructor() {\n    this.events = {};\n  }\n  on(event, listener) {\n    if (!this.events[event]) {\n      this.events[event] = [];\n    }\n    this.events[event].push(listener);\n    return this;\n  }\n  emit(event, data) {\n    const listeners = this.events[event] || [];\n    listeners.forEach(fn => fn(data));\n  }\n}`,
+    loop:`const results = [];\nfor (let i = 0; i < items.length; i++) {\n  if (items[i].active) {\n    results.push(items[i].value * 2);\n  }\n}\nreturn results.filter(Boolean);`,
+    async:`async function fetchUser(id) {\n  try {\n    const res = await fetch('/api/users/' + id);\n    if (!res.ok) throw new Error('Not found');\n    const data = await res.json();\n    return { success: true, data };\n  } catch (err) {\n    return { success: false, error: err.message };\n  }\n}`,
+    algo:`function binarySearch(arr, target) {\n  let left = 0;\n  let right = arr.length - 1;\n  while (left <= right) {\n    const mid = Math.floor((left + right) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}`,
+    oop:`class Animal {\n  constructor(name, sound) {\n    this.name = name;\n    this.sound = sound;\n  }\n  speak() {\n    return this.name + ' says ' + this.sound;\n  }\n}\nclass Dog extends Animal {\n  constructor(name) {\n    super(name, 'woof');\n  }\n  fetch(item) {\n    return this.name + ' fetches ' + item;\n  }\n}`
+  },
+  py:{
+    function:`def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)`,
+    class:`class Stack:\n    def __init__(self):\n        self._items = []\n\n    def push(self, item):\n        self._items.append(item)\n\n    def pop(self):\n        if not self._items:\n            raise IndexError("Stack is empty")\n        return self._items.pop()\n\n    def peek(self):\n        return self._items[-1] if self._items else None`,
+    loop:`results = []\nfor i, item in enumerate(items):\n    if item.get('active', False):\n        value = item['value'] * 2\n        results.append((i, value))\nreturn sorted(results, key=lambda x: x[1])`,
+    async:`import asyncio\n\nasync def fetch_all(urls):\n    async with aiohttp.ClientSession() as session:\n        tasks = [fetch_one(session, url) for url in urls]\n        return await asyncio.gather(*tasks)`,
+    algo:`def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)`,
+    oop:`class Vehicle:\n    def __init__(self, make, model, year):\n        self.make = make\n        self.model = model\n        self.year = year\n\n    def __repr__(self):\n        return f'{self.year} {self.make} {self.model}'\n\n    def age(self):\n        from datetime import date\n        return date.today().year - self.year`
+  },
+  rust:{
+    function:`fn fibonacci(n: u64) -> u64 {\n    match n {\n        0 => 0,\n        1 => 1,\n        _ => fibonacci(n - 1) + fibonacci(n - 2),\n    }\n}`,
+    class:`struct Stack<T> {\n    items: Vec<T>,\n}\n\nimpl<T> Stack<T> {\n    fn new() -> Self {\n        Stack { items: Vec::new() }\n    }\n    fn push(&mut self, item: T) {\n        self.items.push(item);\n    }\n    fn pop(&mut self) -> Option<T> {\n        self.items.pop()\n    }\n}`,
+    loop:`let result: Vec<i32> = items\n    .iter()\n    .filter(|x| x.active)\n    .map(|x| x.value * 2)\n    .collect();\nprintln!("{:?}", result);`,
+    async:`async fn fetch_user(id: u32) -> Result<User, Error> {\n    let url = format!("/api/users/{}", id);\n    let resp = reqwest::get(&url).await?;\n    if !resp.status().is_success() {\n        return Err(Error::NotFound);\n    }\n    let user = resp.json::<User>().await?;\n    Ok(user)\n}`,
+    algo:`fn binary_search(arr: &[i32], target: i32) -> Option<usize> {\n    let (mut left, mut right) = (0, arr.len());\n    while left < right {\n        let mid = left + (right - left) / 2;\n        match arr[mid].cmp(&target) {\n            std::cmp::Ordering::Equal => return Some(mid),\n            std::cmp::Ordering::Less => left = mid + 1,\n            std::cmp::Ordering::Greater => right = mid,\n        }\n    }\n    None\n}`,
+    oop:`trait Shape {\n    fn area(&self) -> f64;\n    fn perimeter(&self) -> f64;\n}\n\nstruct Circle {\n    radius: f64,\n}\n\nimpl Shape for Circle {\n    fn area(&self) -> f64 {\n        std::f64::consts::PI * self.radius.powi(2)\n    }\n    fn perimeter(&self) -> f64 {\n        2.0 * std::f64::consts::PI * self.radius\n    }\n}`
+  },
+  go:{
+    function:`func reverseString(s string) string {\n\trunes := []rune(s)\n\tfor i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n\t\trunes[i], runes[j] = runes[j], runes[i]\n\t}\n\treturn string(runes)\n}`,
+    class:`type Queue struct {\n\titems []interface{}\n\tmu    sync.Mutex\n}\n\nfunc (q *Queue) Enqueue(item interface{}) {\n\tq.mu.Lock()\n\tdefer q.mu.Unlock()\n\tq.items = append(q.items, item)\n}\n\nfunc (q *Queue) Dequeue() (interface{}, bool) {\n\tq.mu.Lock()\n\tdefer q.mu.Unlock()\n\tif len(q.items) == 0 {\n\t\treturn nil, false\n\t}\n\titem := q.items[0]\n\tq.items = q.items[1:]\n\treturn item, true\n}`,
+    loop:`results := make([]int, 0, len(items))\nfor i, v := range items {\n\tif v > 0 {\n\t\tresults = append(results, i*v)\n\t}\n}\nfmt.Println(results)`,
+    async:`func fetchData(ctx context.Context, url string) ([]byte, error) {\n\treq, err := http.NewRequestWithContext(ctx, "GET", url, nil)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tresp, err := http.DefaultClient.Do(req)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer resp.Body.Close()\n\treturn io.ReadAll(resp.Body)\n}`,
+    algo:`func mergeSort(arr []int) []int {\n\tif len(arr) <= 1 {\n\t\treturn arr\n\t}\n\tmid := len(arr) / 2\n\tleft := mergeSort(arr[:mid])\n\tright := mergeSort(arr[mid:])\n\treturn merge(left, right)\n}`,
+    oop:`type Animal interface {\n\tSpeak() string\n\tName() string\n}\n\ntype Dog struct {\n\tname string\n}\n\nfunc (d *Dog) Speak() string {\n\treturn "Woof!"\n}\n\nfunc (d *Dog) Name() string {\n\treturn d.name\n}\n\nfunc MakeNoise(a Animal) {\n\tfmt.Printf("%s says %s\\n", a.Name(), a.Speak())\n}`
+  },
+  ts:{
+    function:`interface User {\n  id: number;\n  name: string;\n  email: string;\n  createdAt: Date;\n}\n\nfunction createUser(data: Partial<User>): User {\n  return {\n    id: Math.floor(Math.random() * 10000),\n    name: data.name ?? 'Anonymous',\n    email: data.email ?? '',\n    createdAt: new Date(),\n  };\n}`,
+    class:`class Observable<T> {\n  private subscribers = new Set<(val: T) => void>();\n\n  subscribe(fn: (val: T) => void): () => void {\n    this.subscribers.add(fn);\n    return () => this.subscribers.delete(fn);\n  }\n\n  emit(value: T): void {\n    this.subscribers.forEach(fn => fn(value));\n  }\n}`,
+    loop:`const grouped = items.reduce<Record<string, Item[]>>((acc, item) => {\n  const key = item.category;\n  if (!acc[key]) acc[key] = [];\n  acc[key].push(item);\n  return acc;\n}, {});`,
+    async:`async function withRetry<T>(\n  fn: () => Promise<T>,\n  retries = 3,\n  delay = 1000\n): Promise<T> {\n  try {\n    return await fn();\n  } catch (err) {\n    if (retries <= 0) throw err;\n    await new Promise(r => setTimeout(r, delay));\n    return withRetry(fn, retries - 1, delay * 2);\n  }\n}`,
+    algo:`function twoSum(nums: number[], target: number): [number, number] {\n  const seen = new Map<number, number>();\n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    if (seen.has(complement)) {\n      return [seen.get(complement)!, i];\n    }\n    seen.set(nums[i], i);\n  }\n  throw new Error("No solution found");\n}`,
+    oop:`abstract class Repository<T, ID> {\n  abstract findById(id: ID): Promise<T | null>;\n  abstract findAll(): Promise<T[]>;\n  abstract save(entity: T): Promise<T>;\n  abstract delete(id: ID): Promise<void>;\n}\n\nclass UserRepository extends Repository<User, number> {\n  private db = new Map<number, User>();\n  async findById(id: number) {\n    return this.db.get(id) ?? null;\n  }\n}`
+  },
+  cpp:{
+    function:`int fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n-1) + fibonacci(n-2);\n}`,
+    class:`template<typename T>\nclass Stack {\nprivate:\n    std::vector<T> items;\npublic:\n    void push(const T& item) {\n        items.push_back(item);\n    }\n    T pop() {\n        if (items.empty())\n            throw std::runtime_error("Stack underflow");\n        T top = items.back();\n        items.pop_back();\n        return top;\n    }\n    bool empty() const { return items.empty(); }\n};`,
+    loop:`std::vector<int> result;\nresult.reserve(items.size());\nfor (const auto& item : items) {\n    if (item.active && item.value > 0) {\n        result.push_back(item.value * 2);\n    }\n}\nstd::sort(result.begin(), result.end());`,
+    async:`#include <future>\n#include <string>\n\nstd::future<std::string> fetchAsync(const std::string& url) {\n    return std::async(std::launch::async, [url]() {\n        // Perform HTTP GET request\n        return httpGet(url);\n    });\n}`,
+    algo:`int binarySearch(const std::vector<int>& arr, int target) {\n    int left = 0;\n    int right = static_cast<int>(arr.size()) - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}`,
+    oop:`class Shape {\npublic:\n    virtual ~Shape() = default;\n    virtual double area() const = 0;\n    virtual std::string name() const = 0;\n};\n\nclass Circle : public Shape {\n    double radius;\npublic:\n    explicit Circle(double r) : radius(r) {}\n    double area() const override {\n        return M_PI * radius * radius;\n    }\n    std::string name() const override { return "Circle"; }\n};`
+  },
+  java:{
+    function:`public int fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n - 1) + fibonacci(n - 2);\n}`,
+    class:`public class Stack<T> {\n    private final Deque<T> items = new ArrayDeque<>();\n\n    public void push(T item) {\n        Objects.requireNonNull(item, "item must not be null");\n        items.push(item);\n    }\n\n    public T pop() {\n        if (items.isEmpty()) {\n            throw new EmptyStackException();\n        }\n        return items.pop();\n    }\n\n    public boolean isEmpty() {\n        return items.isEmpty();\n    }\n}`,
+    loop:`List<Integer> results = items.stream()\n    .filter(Item::isActive)\n    .mapToInt(item -> item.getValue() * 2)\n    .boxed()\n    .sorted()\n    .collect(Collectors.toList());`,
+    async:`CompletableFuture<User> fetchUser(long id) {\n    return CompletableFuture\n        .supplyAsync(() -> userRepository.findById(id)\n            .orElseThrow(() -> new UserNotFoundException(id)))\n        .thenApply(user -> {\n            user.setLastAccessed(Instant.now());\n            return user;\n        });\n}`,
+    algo:`public int binarySearch(int[] arr, int target) {\n    int left = 0;\n    int right = arr.length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}`,
+    oop:`public interface Repository<T, ID> {\n    Optional<T> findById(ID id);\n    List<T> findAll();\n    T save(T entity);\n    void deleteById(ID id);\n}\n\n@Service\npublic class UserService {\n    private final Repository<User, Long> userRepo;\n\n    public UserService(Repository<User, Long> repo) {\n        this.userRepo = repo;\n    }\n}`
+  },
+  sql:{
+    function:`SELECT\n  u.id,\n  u.name,\n  COUNT(o.id) AS order_count,\n  COALESCE(SUM(o.total), 0) AS lifetime_value\nFROM users u\nLEFT JOIN orders o ON o.user_id = u.id\nWHERE u.created_at > NOW() - INTERVAL '30 days'\nGROUP BY u.id, u.name\nORDER BY lifetime_value DESC\nLIMIT 20;`,
+    class:`CREATE TABLE sessions (\n  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  user_id      INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,\n  token        TEXT NOT NULL UNIQUE,\n  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n  expires_at   TIMESTAMPTZ NOT NULL,\n  ip_address   INET,\n  user_agent   TEXT\n);\nCREATE INDEX idx_sessions_user_id ON sessions(user_id);\nCREATE INDEX idx_sessions_expires ON sessions(expires_at);`,
+    loop:`WITH ranked AS (\n  SELECT\n    *,\n    ROW_NUMBER() OVER (\n      PARTITION BY category\n      ORDER BY score DESC, created_at DESC\n    ) AS rn\n  FROM products\n  WHERE deleted_at IS NULL\n)\nSELECT * FROM ranked WHERE rn = 1;`,
+    async:`INSERT INTO audit_log (\n  user_id, action, resource, metadata, created_at\n)\nSELECT\n  $1, $2, $3,\n  jsonb_build_object(\n    'before', $4::jsonb,\n    'after',  $5::jsonb,\n    'ip',     $6\n  ),\n  NOW()\nRETURNING id, created_at;`,
+    algo:`SELECT\n  date_trunc('hour', created_at) AS hour,\n  COUNT(*)                       AS events,\n  AVG(duration_ms)               AS avg_ms,\n  PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY duration_ms) AS p50,\n  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY duration_ms) AS p95,\n  PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY duration_ms) AS p99\nFROM events\nWHERE created_at > NOW() - INTERVAL '24 hours'\nGROUP BY 1\nORDER BY 1;`,
+    oop:`CREATE OR REPLACE FUNCTION update_updated_at()\nRETURNS TRIGGER AS $$\nBEGIN\n  NEW.updated_at = NOW();\n  RETURN NEW;\nEND;\n$$ LANGUAGE plpgsql;\n\nCREATE TRIGGER set_updated_at\n  BEFORE UPDATE ON users\n  FOR EACH ROW\n  EXECUTE FUNCTION update_updated_at();`
+  }
+};
+
+const FINGER_MAP = {
+  '`':['Left Pinky','fl0'],'1':['Left Pinky','fl0'],'2':['Left Pinky','fl0'],'3':['Left Pinky','fl0'],
+  '4':['Left Index','fl3'],'5':['Left Index','fl3'],'6':['Right Index','fr3'],'7':['Right Index','fr3'],
+  '8':['Right Middle','fr2'],'9':['Right Ring','fr1'],'0':['Right Pinky','fr0'],'-':['Right Pinky','fr0'],'=':['Right Pinky','fr0'],
+  'q':['Left Pinky','fl0'],'w':['Left Pinky','fl0'],'e':['Left Middle','fl2'],'r':['Left Index','fl3'],'t':['Left Index','fl3'],
+  'y':['Right Index','fr3'],'u':['Right Index','fr3'],'i':['Right Middle','fr2'],'o':['Right Ring','fr1'],'p':['Right Pinky','fr0'],
+  '[':['Right Pinky','fr0'],']':['Right Pinky','fr0'],'\\':['Right Pinky','fr0'],
+  'a':['Left Pinky','fl0'],'s':['Left Ring','fl1'],'d':['Left Middle','fl2'],'f':['Left Index','fl3'],'g':['Left Index','fl3'],
+  'h':['Right Index','fr3'],'j':['Right Index','fr3'],'k':['Right Middle','fr2'],'l':['Right Ring','fr1'],
+  ';':['Right Pinky','fr0'],"'":['Right Pinky','fr0'],
+  'z':['Left Pinky','fl0'],'x':['Left Pinky','fl0'],'c':['Left Middle','fl2'],'v':['Left Index','fl3'],'b':['Left Index','fl3'],
+  'n':['Right Index','fr3'],'m':['Right Index','fr3'],',':['Right Middle','fr2'],'.':['Right Ring','fr1'],'/':['Right Pinky','fr0'],
+  ' ':['Either Thumb','']
+};
+
+const TIPS = [
+  "Keep your eyes on the code, not the keyboard. Trust your muscle memory.",
+  "Right pinky owns ; : { } [ ] — train it hardest. It's your most important coding finger.",
+  "Speed before accuracy is a dead end. Hit 97%+ accuracy before pushing WPM.",
+  "Opposite-hand Shift rule: right-side key = left Shift. Left-side key = right Shift. Always.",
+  "Return your fingers to home row (ASDF JKL;) after every single keystroke.",
+  "After typing {, your next keys are always Enter+Tab. Build that as one single reflex.",
+  "Relax your forearms. Tension = slower reaction time. Counterintuitively, relaxing speeds you up.",
+  "Train bracket pairs daily: () {} [] — type them 50 times without looking. It takes 3 days.",
+  "The backtick ` is left pinky, top corner. Critical for JS template literals. Drill it.",
+  "15 minutes daily beats 2 hours on weekends. Motor memory needs daily repetition.",
+  "Underscore _ = Shift+- with right pinky. Python and JS use it constantly. Own it.",
+  "Don't bottom out keystrokes with force. Keys actuate before full travel. Lighter = faster.",
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let curText = '', curPos = 0, startTime = null, timerInt = null;
+let timeLimit = 15, timeLeft = 15, errCount = 0, totalTyped = 0;
+let strictMode = false, finished = false, curType = 'function';
+let errMap = {}, wpmHist = [], tipIndex = 0;
+let session = {tests:0, totalWPM:0, bestWPM:0, totalAcc:0, totalChars:0};
+let langStats = {};
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav ul li a:not(.nav-cta)').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if (id === 'practice' && !curText) loadSnippet();
+  if (id === 'levels') renderLevels();
+  if (id === 'challenges') renderChallenges();
+  if (id === 'stats') renderStats();
+}
+
+// ============================================================
+// PRACTICE ENGINE
+// ============================================================
+function loadSnippet() {
+  const lang = document.getElementById('lang-sel').value;
+  curText = SNIPS[lang]?.[curType] || SNIPS.js.function;
+  renderChars();
+  resetPractice();
+}
+
+function pickType(type, el) {
+  curType = type;
+  document.querySelectorAll('.stab').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  loadSnippet();
+}
+
+function renderChars() {
+  const cont = document.getElementById('chars');
+  cont.innerHTML = '';
+  for (let i = 0; i < curText.length; i++) {
+    const s = document.createElement('span');
+    s.className = 'ch todo' + (i === 0 ? ' cur' : '');
+    const c = curText[i];
+    if (c === '\n') { s.textContent = '↵'; s.insertAdjacentHTML('afterbegin',''); s.innerHTML += '\n'; s.style.opacity = '0.25'; }
+    else if (c === ' ') { s.innerHTML = '&nbsp;'; s.classList.add('sp'); }
+    else s.textContent = c;
+    cont.appendChild(s);
+  }
+}
+
+function resetPractice() {
+  curPos = 0; errCount = 0; totalTyped = 0; startTime = null; finished = false;
+  clearInterval(timerInt);
+  timeLeft = timeLimit;
+  setTimerDisplay(timeLeft);
+  document.getElementById('timer-ring').classList.remove('low','warn');
+  document.getElementById('wpm-v').textContent = '0';
+  document.getElementById('acc-v').textContent = '100%';
+  document.getElementById('err-v').textContent = '0';
+  document.getElementById('prog').style.width = '0%';
+  document.getElementById('res-screen').classList.remove('show');
+  document.getElementById('type-hint').style.display = 'block';
+  document.getElementById('ti').value = '';
+  updateNextKey();
+}
+
+function setTimerDisplay(t) {
+  const el = document.getElementById('timer-ring');
+  el.textContent = t >= 60 ? Math.floor(t/60)+':'+(t%60<10?'0':'')+(t%60) : t;
+  if (t <= 5) el.classList.add('low');
+  else if (t <= 10) { el.classList.remove('low'); el.classList.add('warn'); }
+  else el.classList.remove('low','warn');
+}
+
+function focusTI() {
+  document.getElementById('ti').focus();
+  document.getElementById('type-hint').style.display = 'none';
+}
+
+function setDur(n, el) {
+  timeLimit = n;
+  document.querySelectorAll('[id^=t-]').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  loadSnippet();
+}
+
+function toggleStrict(el) {
+  strictMode = !strictMode;
+  el.classList.toggle('on', strictMode);
+  el.textContent = strictMode ? 'Strict ✓' : 'Strict';
+}
+
+document.getElementById('ti').addEventListener('keydown', e => {
+  if (finished) return;
+  if (e.key === 'Tab') { e.preventDefault(); handleChar('\t'); }
+  if (e.key === 'Enter') { e.preventDefault(); handleChar('\n'); }
+  if (e.key === 'Backspace' && strictMode) { e.preventDefault(); }
+});
+
+document.getElementById('ti').addEventListener('input', function(e) {
+  if (finished) return;
+  const v = this.value;
+  if (!v.length) return;
+  const c = v[v.length - 1];
+  this.value = '';
+  handleChar(c);
+});
+
+function handleChar(c) {
+  if (!startTime && c.length >= 1) { startTime = Date.now(); startTimer(); }
+  if (curPos >= curText.length) return;
+  const exp = curText[curPos];
+  const spans = document.getElementById('chars').children;
+  spans[curPos].classList.remove('cur','todo');
+
+  if (c === exp) {
+    spans[curPos].classList.add('ok');
+    totalTyped++; curPos++;
+  } else {
+    if (!strictMode) {
+      spans[curPos].classList.add('bad');
+      errCount++; totalTyped++;
+      errMap[exp] = (errMap[exp] || 0) + 1;
+      curPos++;
+    }
+    if (curPos < spans.length) spans[curPos].classList.add('cur');
+    liveUpdate(); updateNextKey(); renderSidebarErrors(); return;
+  }
+  if (curPos < spans.length) spans[curPos].classList.add('cur');
+  document.getElementById('prog').style.width = (curPos / curText.length * 100) + '%';
+  liveUpdate(); updateNextKey(); renderSidebarErrors();
+  if (curPos >= curText.length) finishTest();
+}
+
+function startTimer() {
+  timerInt = setInterval(() => {
+    timeLeft--;
+    setTimerDisplay(timeLeft);
+    if (timeLeft <= 0) { clearInterval(timerInt); finishTest(); }
+  }, 1000);
+}
+
+function liveUpdate() {
+  const elapsed = (Date.now() - startTime) / 60000 || 0.001;
+  const wpm = Math.round((curPos / 5) / elapsed);
+  const acc = totalTyped > 0 ? Math.round(((totalTyped - errCount) / totalTyped) * 100) : 100;
+  document.getElementById('wpm-v').textContent = wpm;
+  document.getElementById('acc-v').textContent = acc + '%';
+  document.getElementById('err-v').textContent = errCount;
+}
+
+function finishTest() {
+  finished = true; clearInterval(timerInt);
+  const elapsed = (Date.now() - (startTime || Date.now())) / 60000 || 0.001;
+  const wpm = Math.round((curPos / 5) / elapsed);
+  const acc = totalTyped > 0 ? Math.round(((totalTyped - errCount) / totalTyped) * 100) : 100;
+  const timeTaken = Math.round((Date.now() - (startTime || Date.now())) / 1000);
+  const grade = acc >= 98 && wpm >= 80 ? 'S' : acc >= 96 && wpm >= 60 ? 'A' : acc >= 93 && wpm >= 45 ? 'B' : acc >= 88 ? 'C' : 'D';
+  const gradeColor = {S:'var(--amber)',A:'var(--green)',B:'var(--accent)',C:'var(--text2)',D:'var(--red)'}[grade];
+  document.getElementById('res-wpm').textContent = wpm;
+  document.getElementById('res-acc').textContent = acc + '%';
+  document.getElementById('res-err').textContent = errCount;
+  document.getElementById('res-time').textContent = timeTaken + 's';
+  document.getElementById('res-grade').textContent = grade;
+  document.getElementById('res-grade').style.color = gradeColor;
+
+  const tips = wpm < 40 ? "Focus on accuracy first — speed comes from accuracy, not the other way around."
+    : wpm < 60 ? "Good progress! Try the home row drill: type 'asdf jkl;' 50 times without looking."
+    : wpm < 80 ? "Solid speed! Your next target: nail bracket pairs. Train { } ( ) [ ] in isolation."
+    : "Excellent! Push for 95%+ accuracy at this speed. That's senior-dev territory.";
+  document.getElementById('res-tip').textContent = tips;
+  document.getElementById('res-screen').classList.add('show');
+
+  // Update session
+  session.tests++; session.totalWPM += wpm;
+  if (wpm > session.bestWPM) session.bestWPM = wpm;
+  session.totalAcc += acc; session.totalChars += curPos;
+  wpmHist.push(wpm); if (wpmHist.length > 10) wpmHist.shift();
+  const lang = document.getElementById('lang-sel').value;
+  if (!langStats[lang]) langStats[lang] = {tests:0, totalWPM:0};
+  langStats[lang].tests++; langStats[lang].totalWPM += wpm;
+  updateSidebar();
+  showToast('Test done! ' + wpm + ' WPM · ' + acc + '% accuracy', 'g');
+}
+
+function updateSidebar() {
+  document.getElementById('ss-tests').textContent = session.tests;
+  document.getElementById('ss-best').textContent = session.bestWPM ? session.bestWPM + ' WPM' : '—';
+  document.getElementById('ss-acc').textContent = session.tests ? Math.round(session.totalAcc/session.tests)+'%' : '—';
+  document.getElementById('ss-chars').textContent = session.totalChars.toLocaleString();
+}
+
+function updateNextKey() {
+  if (curPos >= curText.length) { document.getElementById('nk-char').textContent = '✓'; document.getElementById('nk-finger').textContent = 'Done!'; return; }
+  const c = curText[curPos];
+  const display = c === '\n' ? '↵' : c === '\t' ? '⇥' : c === ' ' ? '␣' : c;
+  document.getElementById('nk-char').textContent = display;
+  const info = FINGER_MAP[c.toLowerCase()] || FINGER_MAP[c] || ['Unknown', ''];
+  document.getElementById('nk-finger').textContent = info[0];
+  const hints = {'\n':'Enter key — right pinky','\t':'Tab — left pinky','{':'Shift + [ — right pinky','}':'Shift + ] — right pinky','(':'Shift + 9 — right ring',')':"Shift + 0 — right pinky",'[':'Right pinky',']':'Right pinky',';':'Right pinky — home row',':':'Shift + ; — right pinky',"'":'Right pinky'};
+  document.getElementById('nk-hint').textContent = hints[c] || '';
+  highlightKey(c);
+}
+
+function highlightKey(c) {
+  document.querySelectorAll('.k').forEach(k => k.classList.remove('lit'));
+  let kChar = c === '\n' ? 'Enter' : c === '\t' ? 'Tab' : c === ' ' ? ' ' : c.toLowerCase();
+  document.querySelectorAll('.k').forEach(k => {
+    if (k.dataset.k === kChar || k.dataset.k === c) k.classList.add('lit');
+  });
+}
+
+function renderSidebarErrors() {
+  const cont = document.getElementById('recent-errors');
+  const sorted = Object.entries(errMap).sort((a,b) => b[1]-a[1]).slice(0,6);
+  if (!sorted.length) { cont.innerHTML = '<div style="font-size:0.72rem;color:var(--muted);text-align:center;padding:0.5rem">No errors yet — nice!</div>'; return; }
+  const max = sorted[0][1];
+  cont.innerHTML = sorted.map(([k,v]) => `<div class="re-item"><div class="re-char">${k===' '?'SPC':k==='\n'?'ENT':k}</div><div class="re-bar-wrap"><div class="re-bar" style="width:${Math.round(v/max*100)}%"></div></div><div class="re-count">${v}x</div></div>`).join('');
+}
+
+function nextTip() {
+  tipIndex = (tipIndex + 1) % TIPS.length;
+  document.getElementById('quick-tip').textContent = TIPS[tipIndex];
+}
+document.getElementById('quick-tip').textContent = TIPS[0];
+
+// ============================================================
+// LANG SHOWCASE (HOME)
+// ============================================================
+const SHOWCASE = {
+  js:{label:'snippet.js',lang:'JavaScript',code:`<span class="kw">async function</span> <span class="fn">debounce</span>(fn, delay) {\n  <span class="kw">let</span> timer = <span class="kw">null</span>;\n  <span class="kw">return function</span>(...args) {\n    <span class="fn">clearTimeout</span>(timer);\n    timer = <span class="fn">setTimeout</span>(() <span class="op">=></span> {\n      fn.<span class="fn">apply</span>(<span class="kw">this</span>, args);\n    }, delay);\n  };\n}`},
+  py:{label:'snippet.py',lang:'Python',code:`<span class="kw">def</span> <span class="fn">merge_sort</span>(arr):\n    <span class="kw">if</span> len(arr) <= <span class="num">1</span>:\n        <span class="kw">return</span> arr\n    mid = len(arr) <span class="op">//</span> <span class="num">2</span>\n    left  = <span class="fn">merge_sort</span>(arr[:mid])\n    right = <span class="fn">merge_sort</span>(arr[mid:])\n    <span class="kw">return</span> <span class="fn">merge</span>(left, right)`},
+  rust:{label:'snippet.rs',lang:'Rust',code:`<span class="kw">fn</span> <span class="fn">fibonacci</span>(n: u64) -> u64 {\n    <span class="kw">match</span> n {\n        <span class="num">0</span> => <span class="num">0</span>,\n        <span class="num">1</span> => <span class="num">1</span>,\n        _ => <span class="fn">fibonacci</span>(n - <span class="num">1</span>)\n           + <span class="fn">fibonacci</span>(n - <span class="num">2</span>),\n    }\n}`},
+  ts:{label:'snippet.ts',lang:'TypeScript',code:`<span class="kw">interface</span> User {\n  id: <span class="kw">number</span>;\n  name: <span class="kw">string</span>;\n  email: <span class="kw">string</span>;\n}\n\n<span class="kw">async function</span> <span class="fn">withRetry</span><<span class="kw">T</span>>(\n  fn: () => Promise<<span class="kw">T</span>>, retries = <span class="num">3</span>\n): Promise<<span class="kw">T</span>> { <span class="cmt">/* ... */</span> }`},
+  go:{label:'snippet.go',lang:'Go',code:`<span class="kw">func</span> <span class="fn">fetchData</span>(ctx context.Context, url <span class="kw">string</span>) ([]<span class="kw">byte</span>, <span class="kw">error</span>) {\n\treq, err := http.<span class="fn">NewRequestWithContext</span>(\n\t\tctx, <span class="str">"GET"</span>, url, <span class="kw">nil</span>)\n\tif err != <span class="kw">nil</span> { <span class="kw">return nil</span>, err }\n\tdefer resp.Body.<span class="fn">Close</span>()\n\t<span class="kw">return</span> io.<span class="fn">ReadAll</span>(resp.Body)\n}`},
+  sql:{label:'query.sql',lang:'SQL',code:`<span class="kw">SELECT</span>\n  u.id, u.name,\n  <span class="fn">COUNT</span>(o.id) <span class="kw">AS</span> order_count,\n  <span class="fn">SUM</span>(o.total) <span class="kw">AS</span> lifetime_value\n<span class="kw">FROM</span> users u\n<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> o.user_id = u.id\n<span class="kw">GROUP BY</span> u.id\n<span class="kw">ORDER BY</span> lifetime_value <span class="kw">DESC</span>;`}
+};
+
+function selectLang(id, el) {
+  document.querySelectorAll('.lang-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const d = SHOWCASE[id];
+  if (!d) return;
+  document.getElementById('lp-label').textContent = d.label;
+  document.getElementById('lp-badge').textContent = d.lang;
+  document.getElementById('lang-preview-code').innerHTML = d.code;
+}
+
+// ============================================================
+// LEVELS
+// ============================================================
+const LEVELS_DATA = [
+  {id:1,name:'Home Row Basics',desc:'Master ASDF JKL; — the 8 keys your fingers live on. Build the foundational muscle memory.',tags:['ASDF','JKL;','Rhythm'],diff:'beginner',icon:'🏠',done:true,prog:100},
+  {id:2,name:'Top Row Letters',desc:'QWERTY keys in isolation. Stretch reach from home row to top.',tags:['QWERTY','Stretch'],diff:'beginner',icon:'⬆️',done:true,prog:100},
+  {id:3,name:'Bottom Row',desc:'ZXCVBNM — the row beginners neglect. Practiced rarely, needed constantly.',tags:['ZXCV','BNM'],diff:'beginner',icon:'⬇️',done:true,prog:80},
+  {id:4,name:'Full Alphabet Flow',desc:'All 26 letters with correct finger assignment. No looking allowed.',tags:['All 26','No peek'],diff:'beginner',icon:'🔤',done:false,prog:35},
+  {id:5,name:'Capital Letters',desc:'Shift mechanics and left-right hand coordination. The opposite-hand rule.',tags:['Shift','Capitals'],diff:'beginner',icon:'⇧',done:false,prog:0},
+  {id:6,name:'Number Row',desc:'1234567890 — array indices, loops, constants. Critical for any code.',tags:['Numbers','Indices'],diff:'beginner',icon:'🔢',done:false,prog:0},
+  {id:7,name:'The Bracket Club',desc:'() [] {} — programmers type these thousands of times per day. Own them.',tags:['()','[]','{}'],diff:'intermediate',icon:'{ }',done:false,prog:0},
+  {id:8,name:'Semicolons & Colons',desc:'; and : — statement terminators and object/type separators.',tags:[';',':'],diff:'intermediate',icon:'⚡',done:false,prog:0},
+  {id:9,name:'Comparison Operators',desc:'= == === != !== >= <= — the heart of every conditional.',tags:['===','!==','>='],diff:'intermediate',icon:'⚖️',done:false,prog:0},
+  {id:10,name:'String Literals',desc:"Single quotes, double quotes, backtick template literals — all three.",tags:["'",'`','"'],diff:'intermediate',icon:'📝',done:false,prog:0},
+  {id:11,name:'Arrow Functions',desc:'() => {} patterns. Ubiquitous in modern JS, TS, and React.',tags:['=>','Arrow'],diff:'intermediate',icon:'➡️',done:false,prog:0},
+  {id:12,name:'Python Syntax',desc:'Colons, underscores, list comprehensions — the Python way.',tags:['Python',':','_'],diff:'intermediate',icon:'🐍',done:false,prog:0},
+  {id:13,name:'JavaScript Functions',desc:'Full function declarations, arrow expressions, IIFEs.',tags:['JS','func','IIFE'],diff:'intermediate',icon:'🌐',done:false,prog:0},
+  {id:14,name:'Object Literals',desc:'{ key: value, nested: { ... } } — JSON and JS object syntax.',tags:['Objects','JSON'],diff:'intermediate',icon:'📦',done:false,prog:0},
+  {id:15,name:'Classes & OOP',desc:'class, extends, constructor, this, super — object-oriented patterns.',tags:['class','extends'],diff:'advanced',icon:'🏗️',done:false,prog:0},
+  {id:16,name:'Async / Await',desc:'async, await, try/catch, Promise chains — all modern async patterns.',tags:['async','await','try'],diff:'advanced',icon:'⏳',done:false,prog:0},
+  {id:17,name:'TypeScript Types',desc:'Interfaces, generics <T>, type annotations, union types.',tags:['TS','<T>','interface'],diff:'advanced',icon:'🔷',done:false,prog:0},
+  {id:18,name:'Rust Ownership',desc:'& references, mut, lifetimes, match arms — Rust-specific syntax.',tags:['Rust','&mut','match'],diff:'advanced',icon:'⚙️',done:false,prog:0},
+  {id:19,name:'SQL Queries',desc:'SELECT, JOIN, WHERE, GROUP BY, window functions.',tags:['SQL','JOIN','WHERE'],diff:'advanced',icon:'🗄️',done:false,prog:0},
+  {id:20,name:'Regex Patterns',desc:'[a-z]+, \\d{3}, (?:...), ^ $ — regular expressions.',tags:['Regex','[a-z]','\\d'],diff:'advanced',icon:'🔍',done:false,prog:0},
+  {id:21,name:'Go Concurrency',desc:'goroutines, channels, select, sync.Mutex — Go patterns.',tags:['Go','chan','goroutine'],diff:'expert',icon:'🔀',done:false,prog:0},
+  {id:22,name:'React JSX',desc:'<Component prop={value} onClick={() => {}} /> — JSX fluency.',tags:['JSX','React','props'],diff:'expert',icon:'⚛️',done:false,prog:0},
+  {id:23,name:'Shell / Bash',desc:'Pipes, redirects, variables — command line scripting.',tags:['bash','pipe','$VAR'],diff:'expert',icon:'💻',done:false,prog:0},
+  {id:24,name:'Speed Run: 80 WPM',desc:'Any language, any snippet. Hit 80 WPM with 95%+ accuracy to unlock.',tags:['80 WPM','Speed'],diff:'expert',icon:'🚀',done:false,prog:0},
+  {id:25,name:'Speed Run: 100 WPM',desc:'The senior dev benchmark. 100 WPM, 97% accuracy, any language.',tags:['100 WPM','Elite'],diff:'expert',icon:'🏆',done:false,prog:0},
+];
+
+function renderLevels(filter='all') {
+  const container = document.getElementById('levels-container');
+  const tracks = {
+    beginner:{label:'Beginner Track',sub:'Home row to full keyboard',levels:[]},
+    intermediate:{label:'Intermediate Track',sub:'Language fundamentals',levels:[]},
+    advanced:{label:'Advanced Track',sub:'Real-world code patterns',levels:[]},
+    expert:{label:'Expert Track',sub:'Speed runs & specializations',levels:[]},
+  };
+  LEVELS_DATA.forEach(l => { if(tracks[l.diff]) tracks[l.diff].levels.push(l); });
+  const activeTrackKeys = filter === 'all' ? Object.keys(tracks) : [filter];
+  container.innerHTML = activeTrackKeys.map(k => {
+    const t = tracks[k];
+    if (!t || !t.levels.length) return '';
+    return `<div class="track-section">
+      <div class="track-title">
+        <h3>${t.label}</h3>
+        <span class="track-count">${t.levels.length} lessons</span>
+        <span class="badge badge-${k==='beginner'?'green':k==='intermediate'?'amber':k==='advanced'?'red':'purple'}">${k.toUpperCase()}</span>
+      </div>
+      <div class="levels-grid">
+        ${t.levels.map(l => `<div class="lcard ${l.locked?'locked':''} ${l.done?'done':''}" onclick="startLevel(${l.id})">
+          ${l.done?'<div class="lcard-check">✓</div>':''}
+          <div class="lcard-num">LEVEL ${String(l.id).padStart(2,'0')}</div>
+          <div class="lcard-icon">${l.icon}</div>
+          <h4>${l.name}</h4>
+          <div class="lcard-desc">${l.desc}</div>
+          <div class="lcard-tags">${l.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          <div class="lcard-meta">
+            <span class="badge badge-${l.diff==='beginner'?'green':l.diff==='intermediate'?'amber':l.diff==='advanced'?'red':'purple'}">${l.diff.toUpperCase()}</span>
+            ${l.prog > 0 ? `<span style="font-size:0.68rem;font-family:var(--mono);color:var(--text2)">${l.prog}%</span>` : ''}
+          </div>
+          ${l.prog > 0 ? `<div class="prog-mini"><div class="prog-mini-fill" style="width:${l.prog}%"></div></div>` : ''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterLevels(f, el) {
+  document.querySelectorAll('.cf-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderLevels(f);
+}
+
+function startLevel(id) {
+  showPage('practice');
+  showToast('Level ' + id + ' loaded! Click code to start.', 'g');
+}
+
+// ============================================================
+// CHALLENGES
+// ============================================================
+const CHALLENGES_DATA = [
+  {id:1,icon:'⚡',title:'Speed Demon: JS Async',desc:'Type a full async/await function in JavaScript. Target: 70 WPM, 97% accuracy. No backspace allowed.',tags:['JavaScript','async/await'],diff:'intermediate',wpm:70,time:'60s',reward:'⭐ Speed Badge'},
+  {id:2,icon:'🦀',title:'Rusty Fingers',desc:'Rust match expression with all arms. Type lifetimes and ownership notation correctly.',tags:['Rust','match','&mut'],diff:'advanced',wpm:60,time:'90s',reward:'🦀 Rustacean Badge'},
+  {id:3,icon:'🐍',title:'Pythonic',desc:'Python class with type hints, docstring, and dunder methods. PEP 8 style.',tags:['Python','type hints'],diff:'intermediate',wpm:65,time:'75s',reward:'🐍 Pythonista'},
+  {id:4,icon:'🗄️',title:'SQL Window Wizard',desc:'Complex SQL with CTEs, window functions, and PARTITION BY. Semicolons matter.',tags:['SQL','CTE','window fn'],diff:'advanced',wpm:55,time:'2min',reward:'📊 Data Badge'},
+  {id:5,icon:'🔷',title:'TypeScript Generics',desc:'Generic function with constraints, conditional types, and mapped types.',tags:['TypeScript','<T>','Generics'],diff:'expert',wpm:75,time:'90s',reward:'🔷 Type Wizard'},
+  {id:6,icon:'⚙️',title:'Go Concurrent',desc:'Goroutine with channels, select statement, and mutex. Go concurrency patterns.',tags:['Go','goroutine','chan'],diff:'expert',wpm:65,time:'2min',reward:'⚙️ Gopher Badge'},
+];
+
+const LB_DATA = [
+  {rank:1,name:'CodeNinja42',wpm:142,color:'rgba(0,212,255,0.15)',text:'var(--accent)'},
+  {rank:2,name:'RustMaster',wpm:138,color:'rgba(0,232,122,0.1)',text:'var(--green)'},
+  {rank:3,name:'PyWizard',wpm:131,color:'rgba(168,85,247,0.1)',text:'var(--purple)'},
+  {rank:4,name:'TSExpert',wpm:124,color:'rgba(255,179,0,0.08)',text:'var(--amber)'},
+  {rank:5,name:'GoRoutine',wpm:119,color:'var(--surface2)',text:'var(--text2)'},
+  {rank:6,name:'SQLHero',wpm:115,color:'var(--surface2)',text:'var(--text2)'},
+  {rank:7,name:'DevTypist',wpm:110,color:'var(--surface2)',text:'var(--text2)'},
+  {rank:8,name:'ByteCraft',wpm:107,color:'var(--surface2)',text:'var(--text2)'},
+];
+
+function renderChallenges() {
+  const cl = document.getElementById('challenge-list');
+  cl.innerHTML = CHALLENGES_DATA.map(c => `
+    <div class="chal" onclick="showPage('practice');showToast('Challenge: ${c.title} loaded!','g')">
+      <div class="chal-header">
+        <div>
+          <div class="chal-title">${c.icon} ${c.title}</div>
+          <div style="display:flex;gap:7px;margin-top:5px;flex-wrap:wrap">
+            ${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+            <span class="badge badge-${c.diff==='expert'?'red':c.diff==='advanced'?'amber':'blue'}">${c.diff.toUpperCase()}</span>
+          </div>
+        </div>
+        <div style="font-size:0.72rem;font-family:var(--mono);color:var(--accent);white-space:nowrap;text-align:right">${c.reward}</div>
+      </div>
+      <div class="chal-desc">${c.desc}</div>
+      <div class="chal-meta">
+        <div class="chal-info">
+          <div class="ci">Target WPM: <span>${c.wpm}</span></div>
+          <div class="ci">Time: <span>${c.time}</span></div>
+        </div>
+        <button class="btn btn-primary" style="padding:6px 16px;font-size:0.78rem">Start →</button>
+      </div>
+    </div>
+  `).join('');
+
+  const lr = document.getElementById('lb-rows');
+  lr.innerHTML = LB_DATA.map(r => `
+    <div class="lb-row">
+      <div class="lb-rank ${r.rank===1?'top1':r.rank===2?'top2':r.rank===3?'top3':''}">${r.rank===1?'🥇':r.rank===2?'🥈':r.rank===3?'🥉':'#'+r.rank}</div>
+      <div class="lb-avatar" style="background:${r.color};color:${r.text}">${r.name.slice(0,2).toUpperCase()}</div>
+      <div class="lb-name">${r.name}</div>
+      <div class="lb-wpm">${r.wpm} WPM</div>
+    </div>
+  `).join('');
+
+  // Streak dots
+  const sg = document.getElementById('streak-grid');
+  sg.innerHTML = Array.from({length:21},(_,i)=>`<div style="width:16px;height:16px;border-radius:3px;background:${i<14?'rgba(0,232,122,'+(0.15+i*0.04)+')':'var(--border)'};" title="Day ${i+1}"></div>`).join('');
+
+  // Countdown
+  let secs = 14*3600+22*60+31;
+  function tickCd(){
+    secs--;
+    const h=Math.floor(secs/3600);const m=Math.floor((secs%3600)/60);const s=secs%60;
+    const el=document.getElementById('dc-countdown');
+    if(el) el.textContent=h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  }
+  setInterval(tickCd,1000);
+}
+
+// ============================================================
+// TIPS
+// ============================================================
+function showTipPanel(id, el) {
+  document.querySelectorAll('.tip-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tnav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('tip-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ============================================================
+// STATS
+// ============================================================
+const ACHIEVEMENTS = [
+  {icon:'🚀',name:'First Test',cond:'Complete 1 test',earned:false},
+  {icon:'⚡',name:'Streak x5',cond:'5 tests in a row',earned:false},
+  {icon:'🎯',name:'Perfect',cond:'100% accuracy',earned:false},
+  {icon:'🔥',name:'60 WPM',cond:'Reach 60 WPM',earned:false},
+  {icon:'💪',name:'80 WPM',cond:'Reach 80 WPM',earned:false},
+  {icon:'🏆',name:'100 WPM',cond:'Reach 100 WPM',earned:false},
+  {icon:'{ }',name:'Bracket King',cond:'0 bracket errors',earned:false},
+  {icon:'🌐',name:'Polyglot',cond:'5 languages tried',earned:false},
+  {icon:'⌨️',name:'Strict Mode',cond:'Finish in Strict mode',earned:false},
+  {icon:'📅',name:'Daily User',cond:'7-day streak',earned:false},
+  {icon:'🐍',name:'Pythonista',cond:'50 Python tests',earned:false},
+  {icon:'🦀',name:'Rustacean',cond:'20 Rust tests',earned:false},
+];
+
+function renderStats() {
+  const avg = session.tests ? Math.round(session.totalWPM/session.tests) : null;
+  document.getElementById('sv-wpm').textContent = avg || '—';
+  document.getElementById('sv-best').textContent = session.bestWPM || '—';
+  document.getElementById('sv-acc').textContent = session.tests ? Math.round(session.totalAcc/session.tests)+'%' : '—';
+  document.getElementById('sv-tests').textContent = session.tests;
+  document.getElementById('sv-chars').textContent = session.totalChars > 999 ? (session.totalChars/1000).toFixed(1)+'k' : session.totalChars;
+  renderWpmChart(); renderHeatmaps(); renderErrTable(); renderLangStats(); renderAchievements();
+}
+
+function renderWpmChart() {
+  const el = document.getElementById('wpm-history-chart');
+  if (!wpmHist.length) { el.innerHTML = '<div style="font-size:0.72rem;color:var(--muted);margin:auto">Complete tests to see your progress</div>'; return; }
+  const mx = Math.max(...wpmHist, 1);
+  el.innerHTML = wpmHist.map((w,i) => `<div class="wpm-bar-g"><div class="wpm-bar" data-v="${w}" style="height:${Math.max(4,Math.round(w/mx*100))}%"></div><div class="wpm-bar-lbl">T${i+1}</div></div>`).join('');
+}
+
+function renderHeatmaps() {
+  const rows = {
+    'hm-top':'qwertyuiop[]\\',
+    'hm-home':'asdfghjkl;\'"',
+    'hm-bot':'zxcvbnm,./',
+    'hm-sym':'{}()<>=;:+-_'
+  };
+  Object.entries(rows).forEach(([id, keys]) => {
+    const el = document.getElementById(id);
+    el.innerHTML = keys.split('').map(k => {
+      const e = errMap[k] || 0;
+      const cls = e===0?'hm0':e<=2?'hm1':e<=5?'hm2':e<=10?'hm3':'hm4';
+      return `<div class="hm ${cls}" title="${k}: ${e} errors">${k==' '?'_':k}</div>`;
+    }).join('');
+  });
+}
+
+function renderErrTable() {
+  const el = document.getElementById('err-table');
+  const sorted = Object.entries(errMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const hints = {'(':' Practice ()→{} daily',')':"Right ring on Shift+0",'{':'Shift+[, right pinky','}':'Shift+], right pinky',';':'Right pinky, home row',':':'Shift+; — train it','=':'Right ring finger','<':'Shift+, — careful','>':'Shift+. — reach!'};
+  if (!sorted.length) { el.innerHTML='<tr><th>Char</th><th>Mistyped</th><th>Suggestion</th></tr><tr><td colspan="3" style="font-size:0.72rem;color:var(--muted);text-align:center;padding:1rem">No errors yet!</td></tr>'; return; }
+  const mx = sorted[0][1];
+  el.innerHTML = '<tr class="eft"><th>Char</th><th>Mistyped</th><th>Suggestion</th></tr>' +
+    sorted.map(([k,v])=>`<tr><td>${k===' '?'[space]':k==='\n'?'[enter]':k}</td><td><div style="display:flex;align-items:center;gap:8px"><div class="err-bar-wrap"><div class="err-bar-fill" style="width:${Math.round(v/mx*100)}%"></div></div>${v}x</div></td><td style="font-size:0.75rem;color:var(--text2)">${hints[k]||'Practice in isolation'}</td></tr>`).join('');
+}
+
+function renderLangStats() {
+  const el = document.getElementById('lang-stats-grid');
+  const entries = Object.entries(langStats);
+  if (!entries.length) { el.innerHTML='<div style="font-size:0.72rem;color:var(--muted);grid-column:1/-1;text-align:center;padding:1rem">Practice different languages to see breakdown</div>'; return; }
+  const mx = Math.max(...entries.map(([,v])=>Math.round(v.totalWPM/v.tests)),1);
+  el.innerHTML = entries.map(([lang,v])=>{
+    const avg=Math.round(v.totalWPM/v.tests);
+    return `<div class="ls-item"><div class="ls-name">${lang.toUpperCase()}</div><div class="ls-bar-w"><div class="ls-bar-f" style="width:${Math.round(avg/mx*100)}%"></div></div><div class="ls-wpm">${avg} WPM</div></div>`;
+  }).join('');
+}
+
+function renderAchievements() {
+  const earned = new Set();
+  if (session.tests >= 1) earned.add(0);
+  if (session.bestWPM >= 60) earned.add(3);
+  if (session.bestWPM >= 80) earned.add(4);
+  if (session.bestWPM >= 100) earned.add(5);
+  const el = document.getElementById('achievements-grid');
+  el.innerHTML = ACHIEVEMENTS.map((a,i)=>`<div class="ach ${earned.has(i)?'earned':''}"><div class="ach-icon">${a.icon}</div><div class="ach-name">${a.name}</div><div class="ach-cond">${a.cond}</div></div>`).join('');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type='g') {
+  const t = document.getElementById('toast');
+  const dot = document.getElementById('toast-dot');
+  document.getElementById('toast-msg').textContent = msg;
+  dot.className = 'toast-dot ' + type;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadSnippet();
+</script>
+</body>
+</html>

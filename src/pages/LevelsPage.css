@@ -1,0 +1,44 @@
+.curriculum-header { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin: 2rem 0; }
+.curr-filter { display: flex; gap: 7px; flex-wrap: wrap; }
+.cf-btn { background: transparent; border: 1px solid var(--border2); color: var(--text2); font-size: 0.74rem; font-weight: 500; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: .2s; font-family: var(--sans); }
+.cf-btn.active, .cf-btn:hover { background: var(--accent-dim); border-color: rgba(0,212,255,0.3); color: var(--accent); }
+
+.track-section { margin-bottom: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; }
+.track-title { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; cursor: pointer; user-select: none; }
+.track-title:hover h3 { color: var(--accent); }
+.track-title h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); transition: .2s; }
+.track-count { font-family: var(--mono); font-size: 0.68rem; color: var(--text2); background: var(--surface2); padding: 2px 8px; border-radius: 4px; }
+.track-toggle { margin-left: auto; font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+.levels-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+.lcard { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; cursor: pointer; transition: all .25s; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+.lcard:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+.lcard-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.lcard-num { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; }
+.lcard-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+.lcard h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+.lcard-desc { font-size: 0.74rem; color: var(--text2); line-height: 1.6; margin-bottom: 1rem; flex: 1; }
+
+.lcard-meta { display: flex; gap: 1rem; margin-bottom: 1rem; font-family: var(--mono); font-size: 0.7rem; color: var(--text); }
+.lcard-wpm { color: var(--accent); font-weight: 600; }
+.lcard-acc { color: var(--green); }
+
+.lcard-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 1rem; }
+.tag { background: var(--surface2); border: 1px solid var(--border2); border-radius: 5px; font-size: 0.6rem; font-family: var(--mono); color: var(--text2); padding: 2px 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.lcard-start { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); font-weight: 600; margin-top: auto; opacity: 0; transform: translateX(-10px); transition: all .25s; }
+.lcard:hover .lcard-start { opacity: 1; transform: translateX(0); }
+
+.badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 20px; font-size: 0.6rem; font-family: var(--mono); letter-spacing: 0.5px; padding: 3px 9px; font-weight: 700; text-transform: uppercase; }
+.badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,232,122,0.25); }
+.badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(255,179,0,0.25); }
+.badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,71,87,0.25); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
+.badge-accent { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(0,212,255,0.25); }
+
+.show-more-btn { width: 100%; background: var(--bg); border: 1px dashed var(--border2); color: var(--text2); font-size: 0.75rem; font-family: var(--mono); padding: 12px; border-radius: var(--radius); margin-top: 1.2rem; cursor: pointer; transition: .2s; }
+.show-more-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+@media(max-width:1000px) { .levels-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:600px) { .levels-grid { grid-template-columns: 1fr; } .track-section { padding: 1.2rem; } }

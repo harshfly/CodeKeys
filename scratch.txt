@@ -1,0 +1,90 @@
+--- CHALLENGES ---
+<div id="page-challenges" class="page">
+  <div class="container">
+    <div class="section">
+      <div class="section-label">Challenges</div>
+      <div class="section-title">Compete. Beat records.<br><em>Level up.</em></div>
+      <div class="challenges-layout">
+        <div>
+          <!-- DAILY -->
+          <div class="daily-chal">
+            <div class="dc-label">🔥 Daily Challenge</div>
+            <div class="dc-title">Recursive Fibonacci in Rust</div>
+            <div class="dc-desc">Type this Rust function with match arms and lifetime annotations. Target: 75 WPM, 98% accuracy. Bonus: finish in under 45 seconds.</div>
+            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+              <button class="btn btn-primary" onclick="showPage('practice');showToast('Daily challenge loaded!','g')">Start Challenge →</button>
+              <div class="dc-timer">Resets in <span id="dc-countdown">14:22:31</span></div>
+            </div>
+          </div>
+
+          <!-- CHALLENGE LIST -->
+          <div class="challenge-list" id="challenge-list"></div>
+        </div>
+
+        <!-- LEADERBOARD -->
+        <div>
+          <div class="leaderboard">
+            <div class="lb-title">🏆 Global Leaderboard</div>
+            <div id="lb-rows"></div>
+          </div>
+          <div class="side-panel" style="margin-top:1rem">
+            <h4>Your Rank</h4>
+            <div style="text-align:center;padding:0.75rem 0">
+              <div style="font-family:var(--mono);font-size:2.5rem;font-weight:700;color:var(--amber)">#—</div>
+              <div style="font-size:0.72rem;color:var(--text2);margin-top:4px">Complete a timed test to earn a rank</div>
+            </div>
+          </div>
+          <div class="side-panel" style="margin-top:1rem">
+            <h4>Streak</h4>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:0.5rem" id="streak-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+--- TIPS ---
+<div id="page-tips" class="page">
+  <div class="container">
+    <div class="section">
+      <div class="section-label">Hand Guide & Tips</div>
+      <div class="section-title">Type like a surgeon,<br>not a <em>caveman</em>.</div>
+      <div class="tips-layout">
+
+        <!-- SIDEBAR NAV -->
+        <div class="tips-sidebar">
+          <div class="tips-nav-group">
+            <div class="tng-label">Foundation</div>
+            <div class="tnav-item active" onclick="showTipPanel('posture',this)"><span class="tnav-icon">🪑</span>Posture & Setup</div>
+            <div class="tnav-item" onclick="showTipPanel('homerow',this)"><span class="tnav-icon">🏠</span>Home Row Method</div>
+            <div class="tnav-item" onclick="showTipPanel('fingers',this)"><span class="tnav-icon">✋</span>Finger Zones</div>
+          </div>
+          <div class="tips-nav-group">
+            <div class="tng-label">Code-Specific</div>
+            <div class="tnav-item" onclick="showTipPanel('specials',this)"><span class="tnav-icon">{ }</span>Special Characters</div>
+            <div class="tnav-item" onclick="showTipPanel('shift',this)"><span class="tnav-icon">⇧</span>Shift Key Mastery</div>
+            <div class="tnav-item" onclick="showTipPanel('indents',this)"><span class="tnav-icon">→</span>Indentation & Tabs</div>
+          </div>
+          <div class="tips-nav-group">
+            <div class="tng-label">Improvement</div>
+            <div class="tnav-item" onclick="showTipPanel('errors',this)"><span class="tnav-icon">🐛</span>Common Mistakes</div>
+            <div class="tnav-item" onclick="showTipPanel('speed',this)"><span class="tnav-icon">⚡</span>Speed Building</div>
+            <div class="tnav-item" onclick="showTipPanel('habits',this)"><span class="tnav-icon">💀</span>Bad Habits to Kill</div>
+            <div class="tnav-item" onclick="showTipPanel('warmup',this)"><span class="tnav-icon">🔥</span>Warm-Up Drills</div>
+          </div>
+        </div>
+
+        <div class="tips-content-area">
+
+          <!-- POSTURE -->
+          <div class="tip-panel active" id="tip-posture">
+            <h2>Posture & Ergonomic Setup</h2>
+            <p class="tip-intro">Your typing speed ceiling is set before you type a single character. Poor posture creates muscular tension that caps both speed and accuracy — and causes carpal tunnel over years.</p>
+            <div class="posture-grid">
+              <div class="posture-item"><div class="posture-icon">💺</div><div><h5>Chair height</h5><p>Elbows at 90°, forearms roughly parallel to floor. Feet flat on ground. Thighs parallel to floor.</p></div></div>
+              <div class="posture-item"><div class="posture-icon">🖥️</div><div><h5>Monitor distance</h5><p>50–70cm away. Top of screen at or just below eye level. No tilting your head up or down.</p></div></div>
+              <div class="posture-item"><div class="posture-icon">⌨️</div><div><h5>Keyboard position</h5><p>Directly in front of you, about 10–15cm from desk edge. Wrists neutr
+
