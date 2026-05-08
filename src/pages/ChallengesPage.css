@@ -1,18 +1,19 @@
-.chal-hero { background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(168,85,247,0.06)); border: 1px solid rgba(0,212,255,0.2); border-radius: 20px; padding: 3rem; margin: 2rem 0; position: relative; overflow: hidden; }
+.challenges-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; }
+.chal-hero { background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(168,85,247,0.06)); border: 1px solid rgba(0,212,255,0.2); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
 .chal-hero::before { content: ''; position: absolute; top: -50%; right: -15%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,212,255,0.12), transparent 70%); pointer-events: none; }
 .chal-hero-inner { position: relative; z-index: 1; }
 .chal-badge { font-family: var(--mono); font-size: 0.68rem; color: var(--amber); letter-spacing: 2px; margin-bottom: 0.8rem; }
-.chal-hero h3 { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--text); margin-bottom: 0.6rem; }
+.chal-hero h3 { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; color: var(--text); margin-bottom: 0.6rem; }
 .chal-hero p { font-size: 0.85rem; color: var(--text2); line-height: 1.7; max-width: 500px; }
 .chal-hero-meta { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
 .cm { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text); }
 .cm-icon { font-size: 0.85rem; }
-.section-sub-title { font-size: 1rem; font-weight: 600; color: var(--text); margin: 2rem 0 1.2rem; }
-.chal-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.2rem; }
-.ccard { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; display: block; cursor: pointer; transition: all .25s; }
+.section-sub-title { font-size: 1rem; font-weight: 600; color: var(--text); margin: 0 0 1.2rem; }
+.chal-grid { display: flex; flex-direction: column; gap: 1.2rem; }
+.ccard { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; display: block; cursor: pointer; transition: all .25s; text-decoration: none; }
 .ccard:hover { border-color: var(--border2); transform: translateY(-2px); }
-.ccard-icon { font-size: 1.4rem; margin-bottom: 0.7rem; }
-.ccard h4 { font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; }
+.ccard-icon { font-size: 1.2rem; margin-bottom: 0.7rem; }
+.ccard h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; }
 .ccard p { font-size: 0.76rem; color: var(--text2); line-height: 1.65; margin-bottom: 0.8rem; }
 .ccard-tags { display: flex; gap: 5px; margin-bottom: 0.8rem; }
 .ccard-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
@@ -20,11 +21,13 @@
 .ccard-reward { display: flex; align-items: center; gap: 8px; padding-top: 0.8rem; border-top: 1px solid var(--border); }
 .ccard-reward-label { font-size: 0.6rem; font-family: var(--mono); letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
 .ccard-reward-val { font-size: 0.75rem; color: var(--amber); font-weight: 500; }
-.leaderboard { display: flex; flex-direction: column; gap: 6px; max-width: 600px; margin-top: 2rem; }
+.leaderboard { display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .lb-row { display: flex; align-items: center; gap: 1rem; padding: 12px 1.2rem; border-radius: 10px; border: 1px solid var(--border); transition: .2s; }
 .lb-row:hover { border-color: var(--border2); }
 .lb-rank { font-family: var(--mono); font-size: 0.82rem; font-weight: 700; min-width: 30px; }
-.lb-name { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 0.85rem; font-weight: 600; }
+.lb-name { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 0.85rem; font-weight: 600; color: var(--text); }
 .lb-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; border: 1px solid; }
 .lb-wpm { font-family: var(--mono); font-size: 1rem; font-weight: 700; }
-@media(max-width:600px) { .chal-grid { grid-template-columns: 1fr; } }
+.side-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-top: 1rem; }
+.side-panel h4 { font-size: 0.8rem; font-family: var(--mono); letter-spacing: 1px; color: var(--text2); text-transform: uppercase; margin-bottom: 0.5rem; }
+@media(max-width: 900px) { .challenges-layout { grid-template-columns: 1fr; } }
