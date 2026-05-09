@@ -284,12 +284,7 @@
 .re-bar { height: 100%; background: var(--red); border-radius: 3px; transition: width .3s; }
 .re-count { font-family: var(--mono); font-size: 0.7rem; color: var(--text2); min-width: 20px; text-align: right; }
 
-/* SHARED BUTTONS */
-.btn { display: inline-flex; align-items: center; gap: 7px; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all .22s; letter-spacing: 0.2px; }
-.btn-primary { background: var(--accent); color: #000; }
-.btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
-.btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border2); }
-.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
 
 @media(max-width:1000px) {
   .typing-split { grid-template-columns: 1fr; }

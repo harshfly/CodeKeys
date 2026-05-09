@@ -19,6 +19,7 @@
   --muted: #4a5568;
   --accent: #00d4ff;
   --accent-dim: rgba(0,212,255,0.12);
+  --btn-text: #000;
   --green: #00e87a;
   --green-dim: rgba(0,232,122,0.1);
   --red: #ff4757;
@@ -122,21 +123,22 @@
   --surface: #FFFFFF;
   --surface2: #F1F5F9;
   --surface3: #E2E8F0;
-  --border: #E2E8F0;
-  --border2: #CBD5E1;
+  --border: #D1D5DB;
+  --border2: #9CA3AF;
   --text: #0F172A;
-  --text2: #475569;
+  --text2: #334155;
   --muted: #64748B;
-  --accent: #4F46E5;
-  --accent-dim: rgba(79, 70, 229, 0.1);
-  --green: #10B981;
-  --green-dim: rgba(16, 185, 129, 0.1);
-  --red: #EF4444;
-  --red-dim: rgba(239, 68, 68, 0.1);
-  --amber: #F59E0B;
-  --amber-dim: rgba(245, 158, 11, 0.1);
-  --purple: #8B5CF6;
-  --purple-dim: rgba(139, 92, 246, 0.1);
+  --accent: #4338CA;
+  --accent-dim: rgba(67, 56, 202, 0.15);
+  --btn-text: #fff;
+  --green: #059669;
+  --green-dim: rgba(5, 150, 105, 0.1);
+  --red: #DC2626;
+  --red-dim: rgba(220, 38, 38, 0.1);
+  --amber: #D97706;
+  --amber-dim: rgba(217, 119, 6, 0.1);
+  --purple: #7C3AED;
+  --purple-dim: rgba(124, 58, 237, 0.1);
 }
 
 /* --- TYPOGRAPHY --- */
@@ -208,4 +210,37 @@ input, select, textarea { font-family: var(--sans); }
 }
 @media (max-width: 600px) {
   .section-title { font-size: 1.7rem; }
+}
+
+/* --- BUTTONS --- */
+.btn { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 7px; 
+  font-family: var(--sans); 
+  font-size: 0.82rem; 
+  font-weight: 600; 
+  padding: 10px 22px; 
+  border-radius: 8px; 
+  border: none; 
+  cursor: pointer; 
+  transition: all .22s; 
+  letter-spacing: 0.2px; 
+}
+.btn-primary { 
+  background: var(--accent); 
+  color: var(--btn-text, #fff); 
+}
+.btn-primary:hover { 
+  opacity: 0.85; 
+  transform: translateY(-1px); 
+}
+.btn-secondary { 
+  background: transparent; 
+  color: var(--text); 
+  border: 1px solid var(--border2); 
+}
+.btn-secondary:hover { 
+  border-color: var(--accent); 
+  color: var(--accent); 
 }
