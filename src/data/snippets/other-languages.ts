@@ -28,7 +28,7 @@ export const rustSnippets = {
 
 export const goSnippets = {
   function: [
-    `func reverseString(s string) string {\n\trunes := []rune(s)\n\tfor i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n\t\trunes[i], runes[j] = runes[j], runes[i]\n\t}\n\treturn string(runes)\n}`,
+    `package main\n\nimport "fmt"\n\nfunc reverseString(s string) string {\n\trunes := []rune(s)\n\tfor i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n\t\trunes[i], runes[j] = runes[j], runes[i]\n\t}\n\treturn string(runes)\n}`,
     `func contains(slice []string, item string) bool {\n\tfor _, v := range slice {\n\t\tif v == item {\n\t\t\treturn true\n\t\t}\n\t}\n\treturn false\n}`,
   ],
   class: [
@@ -56,7 +56,7 @@ export const goSnippets = {
 
 export const cppSnippets = {
   function: [
-    `int fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n-1) + fibonacci(n-2);\n}`,
+    `#include <iostream>\n#include <vector>\n\nint fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n-1) + fibonacci(n-2);\n}`,
     `std::string trim(const std::string& str) {\n    size_t first = str.find_first_not_of(' ');\n    if (first == std::string::npos) return "";\n    size_t last = str.find_last_not_of(' ');\n    return str.substr(first, last - first + 1);\n}`,
   ],
   class: [
@@ -84,7 +84,7 @@ export const cppSnippets = {
 
 export const javaSnippets = {
   function: [
-    `public int fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n - 1) + fibonacci(n - 2);\n}`,
+    `import java.util.*;\n\npublic class Main {\n    public int fibonacci(int n) {\n        if (n <= 1) return n;\n        return fibonacci(n - 1) + fibonacci(n - 2);\n    }\n}`,
     `public static <T> List<T> filter(List<T> list, Predicate<T> predicate) {\n    return list.stream()\n        .filter(predicate)\n        .collect(Collectors.toList());\n}`,
   ],
   class: [

@@ -66,7 +66,10 @@ export function getSnippet(lang: LanguageId, type: SnippetType, level?: number):
     return fallback ? fallback[Math.floor(Math.random() * fallback.length)] : '';
   }
   if (level) {
-    return typeSnippets[(level - 1) % typeSnippets.length];
+    // Sort by length to ensure Level 1 is simple and difficulty increases
+    const sorted = [...typeSnippets].sort((a, b) => a.length - b.length);
+    // Use modulo to cycle through snippets so high levels don't repeat the exact same snippet
+    return sorted[(level - 1) % sorted.length];
   }
   return typeSnippets[Math.floor(Math.random() * typeSnippets.length)];
 }

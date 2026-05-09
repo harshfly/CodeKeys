@@ -99,7 +99,7 @@ function genLangLevels(langName: string, langId: LanguageId, count: number, icon
       tags: [langName, type], diff, icon, track: langName,
       targetWpm: wpm, minAccuracy: Math.min(85 + Math.floor((i / count) * 12), 97),
       lang: langId, snippetType: type,
-      level: (i % 10) + 1,
+      level: (i % 30) + 1,
     });
   }
   return result;

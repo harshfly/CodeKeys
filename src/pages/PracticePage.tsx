@@ -75,22 +75,10 @@ export default function PracticePage() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
-  // Scroll active character into view (container only)
   useEffect(() => {
     const curElem = document.querySelector('.ch.cur') as HTMLElement;
-    const codeBox = document.querySelector('.code-box') as HTMLElement;
-    if (curElem && codeBox) {
-      const offsetTop = curElem.offsetTop;
-      const containerHeight = codeBox.clientHeight;
-      const scrollTop = codeBox.scrollTop;
-      
-      const padding = 40; // Pixels from edge to trigger scroll
-      
-      if (offsetTop > scrollTop + containerHeight - padding) {
-        codeBox.scrollTo({ top: offsetTop - containerHeight + padding, behavior: 'auto' });
-      } else if (offsetTop < scrollTop + padding) {
-        codeBox.scrollTo({ top: offsetTop - padding, behavior: 'auto' });
-      }
+    if (curElem) {
+      curElem.scrollIntoView({ behavior: 'auto', block: 'nearest' });
     }
   }, [store.position]);
 
@@ -154,6 +142,25 @@ export default function PracticePage() {
     const expected = s.text[s.position];
     if (char === expected) {
       s.handleCorrectChar();
+      
+      // Auto-indent skip: if we just typed a newline, skip leading spaces on the next line
+      if (char === '\n') {
+        setTimeout(() => {
+          const s_updated = useTypingStore.getState();
+          let nextPos = s_updated.position;
+          const text = s_updated.text;
+          let spacesToSkip = 0;
+          while (nextPos < text.length && text[nextPos] === ' ') {
+            nextPos++;
+            spacesToSkip++;
+          }
+          if (spacesToSkip > 0) {
+            for (let i = 0; i < spacesToSkip; i++) {
+              useTypingStore.getState().handleCorrectChar();
+            }
+          }
+        }, 0);
+      }
     } else {
       s.handleWrongChar(expected);
       
@@ -311,7 +318,7 @@ export default function PracticePage() {
               {/* LEVEL SELECTOR */}
               <div className="level-selector" style={{ marginBottom: '1.5rem', display: 'flex', gap: '6px', flexWrap: 'wrap', background: 'var(--surface)', padding: '8px', borderRadius: '12px', border: '1px solid var(--border)' }}>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text2)', alignSelf: 'center', marginRight: '4px', fontWeight: 600 }}>Levels:</span>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(l => (
+                {Array.from({ length: 30 }, (_, i) => i + 1).map(l => (
                   <button key={l} className={`level-btn ${currentLevel === l ? 'active' : ''}`}
                     onClick={() => {
                       setCurrentLevel(l);
