@@ -22,8 +22,8 @@ export const LANGUAGES = [
 export type LanguageId = typeof LANGUAGES[number]['id'];
 
 export const SNIPPET_TYPES = [
-  'function', 'class', 'loop', 'async', 'algo', 'oop',
-  'symbol', 'pattern', 'real-world', 'custom'
+  'symbol', 'class', 'function', 'loop', 'async', 'algo', 'oop',
+  'pattern', 'real-world', 'custom'
 ] as const;
 
 export type SnippetType = typeof SNIPPET_TYPES[number];

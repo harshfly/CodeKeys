@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Zap, Target, AlertCircle, Clock } from 'lucide-react';
 import { useTypingStore } from '@/store/useTypingStore';
 import { useStatsStore } from '@/store/useStatsStore';
 import { getSnippet } from '@/data/snippets';
@@ -22,6 +23,7 @@ export default function PracticePage() {
   const [tipIdx, setTipIdx] = useState(0);
   const [step, setStep] = useState<PracticeStep>('select-lang');
   const [selectedLang, setSelectedLang] = useState<LanguageId | null>(null);
+  const [currentLevel, setCurrentLevel] = useState(1);
 
   // Check if we came from a level link
   useEffect(() => {
@@ -38,16 +40,25 @@ export default function PracticePage() {
     }
   }, [searchParams]);
 
-  const loadNewSnippet = useCallback(() => {
-    const text = getSnippet(store.language, store.snippetType);
+  const loadNewSnippet = useCallback((lvl = currentLevel) => {
+    const text = getSnippet(store.language, store.snippetType, lvl);
     store.setText(text);
-    store.setTimeLeft(store.timeLimit);
+    const freshState = useTypingStore.getState();
+    store.setTimeLeft(freshState.timeLimit);
     if (timerRef.current) clearInterval(timerRef.current);
-  }, [store.language, store.snippetType, store.timeLimit]);
+  }, [store.language, store.snippetType, currentLevel]);
 
   useEffect(() => {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
+
+  // Scroll active character into view
+  useEffect(() => {
+    const curElem = document.querySelector('.ch.cur');
+    if (curElem) {
+      curElem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [store.position]);
 
   const startTimer = useCallback(() => {
     if (store.zenMode) return;
@@ -172,21 +183,10 @@ export default function PracticePage() {
             {/* LEFT COLUMN */}
             <div className="typing-left">
               
-              {/* STATS ROW */}
-              <div className="live-bar">
-                <div className="lb-stat"><div className="lb-val accent">{liveWpm}</div><div className="lb-key">WPM</div></div>
-                <div className="lb-stat"><div className="lb-val green">{liveAcc}%</div><div className="lb-key">Accuracy</div></div>
-                <div className="lb-stat"><div className="lb-val red">{store.errors}</div><div className="lb-key">Errors</div></div>
-                {!store.zenMode && (
-                  <div className={`timer-pill ${timerClass}`}>{formatTime(store.timeLeft)}</div>
-                )}
-                <div className="prog-track-h"><div className="prog-fill-h" style={{ width: `${progress}%` }} /></div>
-              </div>
-
               {/* CONTROLS ROW */}
               <div className="arena-header" style={{ marginBottom: '1rem' }}>
                 <div className="arena-breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <select className="c-sel" value={store.language} onChange={(e) => { store.setLanguage(e.target.value as any); loadNewSnippet(); }}>
+                  <select className="c-sel" value={store.language} onChange={(e) => { store.setLanguage(e.target.value as any); setCurrentLevel(1); loadNewSnippet(1); }}>
                     {LANGUAGES.map(l => (
                       <option key={l.id} value={l.id}>{l.name}</option>
                     ))}
@@ -213,17 +213,43 @@ export default function PracticePage() {
               </div>
 
               {/* TOPIC TABS */}
-              <div className="snippet-tabs" style={{ marginBottom: '1.5rem', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div className="snippet-tabs" style={{ marginBottom: '1rem', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {SNIPPET_TYPES.filter(t => t !== 'custom').map(t => (
                   <button key={t} className={`stab ${store.snippetType === t ? 'active' : ''}`}
                     onClick={() => {
                       store.setSnippetType(t as any);
-                      const text = getSnippet(store.language, t as any);
+                      const text = getSnippet(store.language, t as any, currentLevel);
                       store.setText(text);
                       store.setTimeLeft(store.timeLimit);
                       if (timerRef.current) clearInterval(timerRef.current);
                     }}>
                     {t.charAt(0).toUpperCase() + t.slice(1)}
+                  </button>
+                ))}
+              </div>
+
+              {/* LEVEL SELECTOR */}
+              <div className="level-selector" style={{ marginBottom: '1.5rem', display: 'flex', gap: '6px', flexWrap: 'wrap', background: 'var(--surface)', padding: '8px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text2)', alignSelf: 'center', marginRight: '4px', fontWeight: 600 }}>Levels:</span>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(l => (
+                  <button key={l} className={`level-btn ${currentLevel === l ? 'active' : ''}`}
+                    onClick={() => {
+                      setCurrentLevel(l);
+                      loadNewSnippet(l);
+                      handleReset();
+                    }}
+                    style={{
+                      background: currentLevel === l ? 'var(--accent)' : 'var(--surface2)',
+                      color: currentLevel === l ? '#000' : 'var(--text2)',
+                      border: '1px solid var(--border2)',
+                      borderRadius: '6px',
+                      padding: '4px 10px',
+                      fontSize: '0.75rem',
+                      fontWeight: currentLevel === l ? '700' : '500',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
+                    }}>
+                    {l}
                   </button>
                 ))}
               </div>
@@ -274,11 +300,21 @@ export default function PracticePage() {
                     <div style={{ display: 'flex', gap: 10, marginTop: '1rem' }}>
                       <button className="btn btn-secondary" onClick={handleReset}>Try Again</button>
                       <button className="btn btn-primary" onClick={() => { 
-                        const types = SNIPPET_TYPES.filter(t => t !== 'custom');
-                        const nextType = types[(types.indexOf(store.snippetType as any) + 1) % types.length] as any;
-                        store.setSnippetType(nextType);
-                        loadNewSnippet(); 
-                        handleReset(); 
+                        if (currentLevel < 10) {
+                          const nextLvl = currentLevel + 1;
+                          setCurrentLevel(nextLvl);
+                          loadNewSnippet(nextLvl);
+                          handleReset();
+                        } else {
+                          const types = SNIPPET_TYPES.filter(t => t !== 'custom');
+                          const nextType = types[(types.indexOf(store.snippetType as any) + 1) % types.length] as any;
+                          store.setSnippetType(nextType);
+                          setCurrentLevel(1);
+                          const text = getSnippet(store.language, nextType, 1);
+                          store.setText(text);
+                          store.setTimeLeft(store.timeLimit);
+                          handleReset();
+                        }
                       }}>Next Level →</button>
                     </div>
                   </div>
@@ -297,6 +333,34 @@ export default function PracticePage() {
             {/* RIGHT COLUMN */}
             <div className="typing-right" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               
+              {/* STATS ROW */}
+              <div className="live-bar centered">
+                <div className="lb-stat">
+                  <div className="lb-val accent" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Zap size={16} /> {liveWpm}
+                  </div>
+                  <div className="lb-key">WPM</div>
+                </div>
+                <div className="lb-stat">
+                  <div className="lb-val green" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Target size={16} /> {liveAcc}%
+                  </div>
+                  <div className="lb-key">Accuracy</div>
+                </div>
+                <div className="lb-stat">
+                  <div className="lb-val red" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <AlertCircle size={16} /> {store.errors}
+                  </div>
+                  <div className="lb-key">Errors</div>
+                </div>
+                {!store.zenMode && (
+                  <div className={`timer-pill ${timerClass}`} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Clock size={16} /> {formatTime(store.timeLeft)}
+                  </div>
+                )}
+                <div className="prog-track-h"><div className="prog-fill-h" style={{ width: `${progress}%` }} /></div>
+              </div>
+
               {/* NEXT KEY INFO */}
               <div className="nk-box">
                 <div className="nk-label">NEXT KEY</div>

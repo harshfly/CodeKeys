@@ -57,13 +57,16 @@ const ALL_SNIPPETS: Record<string, SnippetMap> = {
   },
 };
 
-export function getSnippet(lang: LanguageId, type: SnippetType): string {
+export function getSnippet(lang: LanguageId, type: SnippetType, level?: number): string {
   const langSnippets = ALL_SNIPPETS[lang];
   if (!langSnippets) return ALL_SNIPPETS.js.function[0];
   const typeSnippets = langSnippets[type] || langSnippets.function;
   if (!typeSnippets || typeSnippets.length === 0) {
     const fallback = langSnippets.function || Object.values(langSnippets)[0];
     return fallback ? fallback[Math.floor(Math.random() * fallback.length)] : '';
+  }
+  if (level !== undefined) {
+    return typeSnippets[(level - 1) % typeSnippets.length];
   }
   return typeSnippets[Math.floor(Math.random() * typeSnippets.length)];
 }
