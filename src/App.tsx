@@ -1,7 +1,10 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useThemeStore } from '@/store/useThemeStore';
+import { useAuthStore } from '@/store/useAuthStore';
+import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/layout/Navbar';
+import LoginPage from '@/pages/LoginPage';
 import Footer from '@/components/layout/Footer';
 import HomePage from '@/pages/HomePage';
 import PracticePage from '@/pages/PracticePage';
@@ -18,9 +21,27 @@ function ScrollToTop() {
 
 function AppInner() {
   const { theme } = useThemeStore();
+  const { setUser, setLoading } = useAuthStore();
+  
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <>
@@ -33,6 +54,7 @@ function AppInner() {
         <Route path="/challenges" element={<ChallengesPage />} />
         <Route path="/guide" element={<HandGuidePage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
       <Footer />
     </>

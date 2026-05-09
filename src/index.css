@@ -118,17 +118,17 @@
 }
 
 [data-theme="light"] {
-  --bg: #FAFCFF;
+  --bg: #F8FAFC;
   --surface: #FFFFFF;
   --surface2: #F1F5F9;
   --surface3: #E2E8F0;
   --border: #E2E8F0;
   --border2: #CBD5E1;
   --text: #0F172A;
-  --text2: #334155;
+  --text2: #475569;
   --muted: #64748B;
-  --accent: #6366F1;
-  --accent-dim: rgba(99, 102, 241, 0.1);
+  --accent: #4F46E5;
+  --accent-dim: rgba(79, 70, 229, 0.1);
   --green: #10B981;
   --green-dim: rgba(16, 185, 129, 0.1);
   --red: #EF4444;

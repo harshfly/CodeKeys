@@ -28,7 +28,7 @@ export const SNIPPET_TYPES = [
 
 export type SnippetType = typeof SNIPPET_TYPES[number];
 
-export const DURATIONS = [15, 30, 60, 120] as const;
+export const DURATIONS = [15, 30, 60, 120, 0] as const;
 
 export const DIFFICULTY_LEVELS = ['beginner', 'intermediate', 'advanced', 'expert', 'elite'] as const;
 export type Difficulty = typeof DIFFICULTY_LEVELS[number];

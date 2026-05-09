@@ -36,14 +36,14 @@ export const ACHIEVEMENTS = [
 ];
 
 export const CHALLENGES = [
-  { id: 'js_async', icon: '⚡', title: 'Speed Demon: JS Async', desc: 'Type a full async/await function.', tags: ['JavaScript', 'async'], diff: 'intermediate' as const, targetWpm: 70, time: '60s', reward: '⭐ Speed Badge', lang: 'js' as const },
-  { id: 'rust_match', icon: '🦀', title: 'Rusty Fingers', desc: 'Rust match with all arms.', tags: ['Rust', 'match'], diff: 'advanced' as const, targetWpm: 60, time: '90s', reward: '🦀 Rustacean', lang: 'rust' as const },
-  { id: 'py_class', icon: '🐍', title: 'Pythonic', desc: 'Python class with type hints.', tags: ['Python', 'class'], diff: 'intermediate' as const, targetWpm: 65, time: '75s', reward: '🐍 Pythonista', lang: 'py' as const },
-  { id: 'sql_window', icon: '🗄️', title: 'SQL Window Wizard', desc: 'Complex SQL with CTEs.', tags: ['SQL', 'CTE'], diff: 'advanced' as const, targetWpm: 55, time: '2min', reward: '📊 Data Badge', lang: 'sql' as const },
-  { id: 'ts_generics', icon: '🔷', title: 'TypeScript Generics', desc: 'Generic functions and types.', tags: ['TypeScript', '<T>'], diff: 'expert' as const, targetWpm: 75, time: '90s', reward: '🔷 Type Wizard', lang: 'ts' as const },
-  { id: 'go_concurrent', icon: '⚙️', title: 'Go Concurrent', desc: 'Goroutines and channels.', tags: ['Go', 'goroutine'], diff: 'expert' as const, targetWpm: 65, time: '2min', reward: '⚙️ Gopher', lang: 'go' as const },
-  { id: 'bracket_blitz', icon: '{ }', title: 'Bracket Blitz', desc: 'All brackets at max speed.', tags: ['Brackets', 'Speed'], diff: 'intermediate' as const, targetWpm: 50, time: '30s', reward: '🔗 Bracket Pro', lang: 'js' as const },
-  { id: 'symbol_storm', icon: '⚡', title: 'Symbol Storm', desc: 'Every symbol at 60+ WPM.', tags: ['Symbols', 'All'], diff: 'advanced' as const, targetWpm: 60, time: '60s', reward: '⌨️ Symbol Master', lang: 'js' as const },
+  { id: 'js_async', icon: '⚡', title: 'Speed Demon: JS Async', desc: 'Type a full async/await function.', tags: ['JavaScript', 'async'], diff: 'intermediate' as const, targetWpm: 70, time: '60s', reward: '⭐ Speed Badge', lang: 'js' as const, snippetType: 'async' },
+  { id: 'rust_match', icon: '🦀', title: 'Rusty Fingers', desc: 'Rust match with all arms.', tags: ['Rust', 'match'], diff: 'advanced' as const, targetWpm: 60, time: '90s', reward: '🦀 Rustacean', lang: 'rust' as const, snippetType: 'pattern' },
+  { id: 'py_class', icon: '🐍', title: 'Pythonic', desc: 'Python class with type hints.', tags: ['Python', 'class'], diff: 'intermediate' as const, targetWpm: 65, time: '75s', reward: '🐍 Pythonista', lang: 'py' as const, snippetType: 'class' },
+  { id: 'sql_window', icon: '🗄️', title: 'SQL Window Wizard', desc: 'Complex SQL with CTEs.', tags: ['SQL', 'CTE'], diff: 'advanced' as const, targetWpm: 55, time: '2min', reward: '📊 Data Badge', lang: 'sql' as const, snippetType: 'function' },
+  { id: 'ts_generics', icon: '🔷', title: 'TypeScript Generics', desc: 'Generic functions and types.', tags: ['TypeScript', '<T>'], diff: 'expert' as const, targetWpm: 75, time: '90s', reward: '🔷 Type Wizard', lang: 'ts' as const, snippetType: 'oop' },
+  { id: 'go_concurrent', icon: '⚙️', title: 'Go Concurrent', desc: 'Goroutines and channels.', tags: ['Go', 'goroutine'], diff: 'expert' as const, targetWpm: 65, time: '2min', reward: '⚙️ Gopher', lang: 'go' as const, snippetType: 'async' },
+  { id: 'bracket_blitz', icon: '{ }', title: 'Bracket Blitz', desc: 'All brackets at max speed.', tags: ['Brackets', 'Speed'], diff: 'intermediate' as const, targetWpm: 50, time: '30s', reward: '🔗 Bracket Pro', lang: 'js' as const, snippetType: 'symbol' },
+  { id: 'symbol_storm', icon: '⚡', title: 'Symbol Storm', desc: 'Every symbol at 60+ WPM.', tags: ['Symbols', 'All'], diff: 'advanced' as const, targetWpm: 60, time: '60s', reward: '⌨️ Symbol Master', lang: 'js' as const, snippetType: 'symbol' },
 ];
 
 export const LEADERBOARD_DATA = [

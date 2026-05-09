@@ -1,11 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useThemeStore } from '@/store/useThemeStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { THEMES } from '@/lib/constants';
+import { Sun, Moon } from 'lucide-react';
 import './Navbar.css';
 
 export default function Navbar() {
   const location = useLocation();
   const { theme, setTheme } = useThemeStore();
+  const { user } = useAuthStore();
   const isActive = (path: string) => location.pathname === path ? 'active' : '';
 
   return (
@@ -25,12 +28,18 @@ export default function Navbar() {
         <li><Link to="/levels" className={isActive('/levels')}>Levels</Link></li>
         <li><Link to="/challenges" className={isActive('/challenges')}>Challenges</Link></li>
         <li><Link to="/guide" className={isActive('/guide')}>Hand Guide</Link></li>
-        <li><Link to="/profile" className={isActive('/profile')}>User Dashboard</Link></li>
+        <li>
+          {user ? (
+            <Link to="/profile" className={isActive('/profile')}>User Dashboard</Link>
+          ) : (
+            <Link to="/login" className={isActive('/login')}>Login</Link>
+          )}
+        </li>
       </ul>
 
       <div className="nav-right">
         <button className="theme-toggle" onClick={() => setTheme(theme === 'midnight' ? 'light' : 'midnight')}>
-          {theme === 'midnight' ? '☀️' : '🌙'}
+          {theme === 'midnight' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
         <Link to="/practice" className="nav-cta">Start →</Link>
       </div>

@@ -11,12 +11,30 @@
 .track-toggle { margin-left: auto; font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
 .levels-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
-.lcard { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; cursor: pointer; transition: all .25s; position: relative; overflow: hidden; display: flex; flex-direction: column; }
-.lcard:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+.lcard { 
+  background: var(--bg); 
+  border: 1px solid var(--border); 
+  border-radius: var(--radius); 
+  padding: 1.5rem; 
+  cursor: pointer; 
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
+  position: relative; 
+  overflow: hidden; 
+  display: flex; 
+  flex-direction: column; 
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+.lcard:hover { 
+  border-color: var(--accent); 
+  transform: translateY(-5px) rotateX(5deg) rotateY(5deg); 
+  box-shadow: -5px 5px 15px rgba(0,0,0,0.3), 0 0 20px var(--accent-dim); 
+}
 
 .lcard-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
 .lcard-num { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; }
-.lcard-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+.lcard-icon { font-size: 1.6rem; margin-bottom: 0.6rem; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+.lcard:hover .lcard-icon { transform: translateZ(15px) scale(1.1); }
 .lcard h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
 .lcard-desc { font-size: 0.74rem; color: var(--text2); line-height: 1.6; margin-bottom: 1rem; flex: 1; }
 
@@ -42,3 +60,14 @@
 
 @media(max-width:1000px) { .levels-grid { grid-template-columns: 1fr 1fr; } }
 @media(max-width:600px) { .levels-grid { grid-template-columns: 1fr; } .track-section { padding: 1.2rem; } }
+
+/* Completed Levels */
+.lcard.completed {
+  border-color: var(--green);
+  background: var(--green-dim);
+}
+.lcard.completed .lcard-start {
+  color: var(--green);
+  opacity: 1;
+  transform: translateX(0);
+}

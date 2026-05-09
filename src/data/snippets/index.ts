@@ -65,7 +65,7 @@ export function getSnippet(lang: LanguageId, type: SnippetType, level?: number):
     const fallback = langSnippets.function || Object.values(langSnippets)[0];
     return fallback ? fallback[Math.floor(Math.random() * fallback.length)] : '';
   }
-  if (level !== undefined) {
+  if (level) {
     return typeSnippets[(level - 1) % typeSnippets.length];
   }
   return typeSnippets[Math.floor(Math.random() * typeSnippets.length)];

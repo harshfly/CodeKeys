@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { Zap, Target, AlertCircle, Clock } from 'lucide-react';
 import { useTypingStore } from '@/store/useTypingStore';
 import { useStatsStore } from '@/store/useStatsStore';
+import { useAuthStore } from '@/store/useAuthStore';
+import { supabase } from '@/lib/supabase';
 import { getSnippet } from '@/data/snippets';
 import { getFingerForKey, KEY_HINTS } from '@/data/fingerMap';
 import { LANGUAGES, SNIPPET_TYPES, DURATIONS } from '@/lib/constants';
@@ -10,9 +12,25 @@ import type { LanguageId, SnippetType } from '@/lib/constants';
 import { calculateWPM, calculateAccuracy, getGrade, getGradeColor, formatTime } from '@/lib/utils';
 import { TIPS } from '@/data/tips';
 import Keyboard from '@/components/typing/Keyboard';
+import { Globe, Shield, Terminal, Settings, Coffee, Database, Layout, Palette, Gem, Server, Braces } from 'lucide-react';
 import './PracticePage.css';
 
 type PracticeStep = 'select-lang' | 'typing';
+
+const ICON_MAP: Record<string, any> = {
+  js: Globe,
+  ts: Shield,
+  py: Terminal,
+  rust: Settings,
+  go: Zap,
+  cpp: Braces,
+  java: Coffee,
+  sql: Database,
+  html: Layout,
+  css: Palette,
+  ruby: Gem,
+  php: Server,
+};
 
 export default function PracticePage() {
   const [searchParams] = useSearchParams();
@@ -29,12 +47,17 @@ export default function PracticePage() {
   useEffect(() => {
     const lang = searchParams.get('lang');
     const type = searchParams.get('type');
+    const lvl = searchParams.get('level');
     if (lang) {
       store.setLanguage(lang as LanguageId);
       setSelectedLang(lang as LanguageId);
       const snippetType = (type || 'function') as SnippetType;
       store.setSnippetType(snippetType);
-      const text = getSnippet(lang as LanguageId, snippetType);
+      
+      const levelNum = lvl ? parseInt(lvl, 10) : 0;
+      setCurrentLevel(levelNum);
+      
+      const text = getSnippet(lang as LanguageId, snippetType, levelNum);
       store.setText(text);
       setStep('typing');
     }
@@ -52,20 +75,33 @@ export default function PracticePage() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
-  // Scroll active character into view
+  // Scroll active character into view (container only)
   useEffect(() => {
-    const curElem = document.querySelector('.ch.cur');
-    if (curElem) {
-      curElem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const curElem = document.querySelector('.ch.cur') as HTMLElement;
+    const codeBox = document.querySelector('.code-box') as HTMLElement;
+    if (curElem && codeBox) {
+      const offsetTop = curElem.offsetTop;
+      const containerHeight = codeBox.clientHeight;
+      const scrollTop = codeBox.scrollTop;
+      
+      const padding = 40; // Pixels from edge to trigger scroll
+      
+      if (offsetTop > scrollTop + containerHeight - padding) {
+        codeBox.scrollTo({ top: offsetTop - containerHeight + padding, behavior: 'auto' });
+      } else if (offsetTop < scrollTop + padding) {
+        codeBox.scrollTo({ top: offsetTop - padding, behavior: 'auto' });
+      }
     }
   }, [store.position]);
 
   const startTimer = useCallback(() => {
+    const s = useTypingStore.getState();
+    if (s.timeLimit === 0) return; // Free time mode
     if (store.zenMode) return;
     timerRef.current = setInterval(() => {
-      const s = useTypingStore.getState();
-      const newTime = s.timeLeft - 1;
-      s.setTimeLeft(newTime);
+      const currentS = useTypingStore.getState();
+      const newTime = currentS.timeLeft - 1;
+      currentS.setTimeLeft(newTime);
       if (newTime <= 0) {
         clearInterval(timerRef.current!);
         finishTest();
@@ -82,7 +118,34 @@ export default function PracticePage() {
     const wpm = calculateWPM(s.position, elapsed);
     const acc = calculateAccuracy(s.totalTyped, s.errors);
     stats.addTestResult(wpm, acc, s.position, s.language, s.errMap);
-  }, []);
+    
+    // Save to Supabase if logged in
+    const auth = useAuthStore.getState();
+    if (auth.user) {
+      supabase.from('typing_stats').insert({
+        user_id: auth.user.id,
+        wpm: wpm,
+        accuracy: acc,
+        chars_typed: s.position,
+        language: s.language,
+        snippet_type: s.snippetType
+      }).then(({ error }) => {
+        if (error) console.error('Error saving stats:', error);
+      });
+      
+      if (currentLevel > 0) {
+        supabase.from('level_progress').upsert({
+          user_id: auth.user.id,
+          level_id: currentLevel,
+          completed: true,
+          best_wpm: wpm,
+          best_accuracy: acc
+        }, { onConflict: 'user_id,level_id' }).then(({ error }) => {
+          if (error) console.error('Error saving progress:', error);
+        });
+      }
+    }
+  }, [currentLevel]);
 
   const handleChar = useCallback((char: string) => {
     const s = useTypingStore.getState();
@@ -93,6 +156,18 @@ export default function PracticePage() {
       s.handleCorrectChar();
     } else {
       s.handleWrongChar(expected);
+      
+      // Vibrate system
+      if ('vibrate' in navigator) {
+        navigator.vibrate(100);
+      }
+      
+      // Visual shake
+      const codeBox = document.querySelector('.code-box');
+      if (codeBox) {
+        codeBox.classList.add('shake');
+        setTimeout(() => codeBox.classList.remove('shake'), 300);
+      }
     }
     if (useTypingStore.getState().position >= s.text.length) finishTest();
   }, [startTimer, finishTest]);
@@ -151,22 +226,27 @@ export default function PracticePage() {
             <p className="section-sub">Select a programming language to practice typing real code snippets.</p>
 
             <div className="lang-grid">
-              {LANGUAGES.map(lang => (
-                <div key={lang.id} className="lang-card" onClick={() => {
-                  setSelectedLang(lang.id as LanguageId);
-                  store.setLanguage(lang.id as LanguageId);
-                  store.setSnippetType('function'); // default to function topic
-                  const text = getSnippet(lang.id as LanguageId, 'function');
-                  store.setText(text);
-                  store.setTimeLeft(store.timeLimit);
-                  setStep('typing');
-                  if (timerRef.current) clearInterval(timerRef.current);
-                }}>
-                  <div className="lang-card-icon">{lang.icon}</div>
-                  <div className="lang-card-name">{lang.name}</div>
-                  <div className="lang-card-ext">{lang.ext}</div>
-                </div>
-              ))}
+              {LANGUAGES.map(lang => {
+                const IconComp = ICON_MAP[lang.id];
+                return (
+                  <div key={lang.id} className="lang-card" onClick={() => {
+                    setSelectedLang(lang.id as LanguageId);
+                    store.setLanguage(lang.id as LanguageId);
+                    store.setSnippetType('function'); // default to function topic
+                    const text = getSnippet(lang.id as LanguageId, 'function');
+                    store.setText(text);
+                    store.setTimeLeft(store.timeLimit);
+                    setStep('typing');
+                    if (timerRef.current) clearInterval(timerRef.current);
+                  }}>
+                    <div className="lang-card-icon">
+                      {IconComp ? <IconComp size={28} strokeWidth={1.5} /> : lang.icon}
+                    </div>
+                    <div className="lang-card-name">{lang.name}</div>
+                    <div className="lang-card-ext">{lang.ext}</div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -196,7 +276,7 @@ export default function PracticePage() {
                   {DURATIONS.map(d => (
                     <button key={d} className={`c-btn ${store.timeLimit === d ? 'sel' : ''}`}
                       onClick={() => { store.setTimeLimit(d); loadNewSnippet(); }}>
-                      {d >= 60 ? `${d / 60}min` : `${d}s`}
+                      {d === 0 ? 'Free' : d >= 60 ? `${d / 60}min` : `${d}s`}
                     </button>
                   ))}
                   <button className={`c-btn ${store.strictMode ? 'on' : ''}`} onClick={() => store.setStrictMode(!store.strictMode)}>
@@ -353,7 +433,7 @@ export default function PracticePage() {
                   </div>
                   <div className="lb-key">Errors</div>
                 </div>
-                {!store.zenMode && (
+                {!store.zenMode && store.timeLimit !== 0 && (
                   <div className={`timer-pill ${timerClass}`} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <Clock size={16} /> {formatTime(store.timeLeft)}
                   </div>

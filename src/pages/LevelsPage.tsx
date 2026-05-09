@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LEVELS, getLevelsByTrack } from '@/data/levels';
+import { useAuthStore } from '@/store/useAuthStore';
+import { supabase } from '@/lib/supabase';
 import { DIFFICULTY_LEVELS, DIFFICULTY_COLORS } from '@/lib/constants';
 import type { Difficulty } from '@/lib/constants';
 import './LevelsPage.css';
@@ -8,7 +10,25 @@ import './LevelsPage.css';
 export default function LevelsPage() {
   const [filter, setFilter] = useState<'all' | Difficulty>('all');
   const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
+  const [completedLevels, setCompletedLevels] = useState<number[]>([]);
   const navigate = useNavigate();
+  const { user } = useAuthStore();
+
+  useEffect(() => {
+    if (user) {
+      supabase
+        .from('level_progress')
+        .select('level_id')
+        .eq('user_id', user.id)
+        .eq('completed', true)
+        .then(({ data, error }) => {
+          if (error) console.error('Error fetching progress:', error);
+          if (data) {
+            setCompletedLevels(data.map(d => d.level_id));
+          }
+        });
+    }
+  }, [user]);
   const tracks = useMemo(() => getLevelsByTrack(), []);
   const trackNames = Object.keys(tracks);
   const filteredTracks = filter === 'all'
@@ -18,7 +38,8 @@ export default function LevelsPage() {
   const handleLevelClick = (level: typeof LEVELS[0]) => {
     const lang = level.lang || 'js';
     const type = level.snippetType || 'function';
-    navigate(`/practice?lang=${lang}&type=${type}`);
+    const lvl = level.level || 1;
+    navigate(`/practice?lang=${lang}&type=${type}&level=${lvl}`);
   };
 
   const toggleTrack = (trackName: string) => {
@@ -65,7 +86,7 @@ export default function LevelsPage() {
                 </div>
                 <div className="levels-grid">
                   {displayLevels.map(l => (
-                    <div key={l.id} className="lcard" onClick={() => handleLevelClick(l)}>
+                    <div key={l.id} className={`lcard ${completedLevels.includes(l.id) ? 'completed' : ''}`} onClick={() => handleLevelClick(l)}>
                       <div className="lcard-top">
                         <div className="lcard-num">#{String(l.id).padStart(3, '0')}</div>
                         <span className={`badge badge-${DIFFICULTY_COLORS[l.diff]}`}>{l.diff}</span>
@@ -80,7 +101,7 @@ export default function LevelsPage() {
                       <div className="lcard-tags">
                         {l.tags.slice(0, 3).map(t => <span key={t} className="tag">{t}</span>)}
                       </div>
-                      <div className="lcard-start">Start Level →</div>
+                      <div className="lcard-start">{completedLevels.includes(l.id) ? 'Completed ✓' : 'Start Level →'}</div>
                     </div>
                   ))}
                 </div>
