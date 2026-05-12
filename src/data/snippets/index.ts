@@ -66,8 +66,18 @@ export function getSnippet(lang: LanguageId, type: SnippetType, level?: number):
     return fallback ? fallback[Math.floor(Math.random() * fallback.length)] : '';
   }
   if (level) {
+    let pool = [...typeSnippets];
+    // If the specific category has very few snippets, pad it with other snippets from the same language
+    // to ensure levels 1-30 show different code!
+    if (pool.length < 10) {
+      const allForLang = Object.values(langSnippets).flat();
+      // Add unique snippets from other categories
+      const otherSnippets = allForLang.filter(s => !pool.includes(s));
+      pool = [...pool, ...otherSnippets];
+    }
+
     // Sort by length to ensure Level 1 is simple and difficulty increases
-    const sorted = [...typeSnippets].sort((a, b) => a.length - b.length);
+    const sorted = pool.sort((a, b) => a.length - b.length);
     // Use modulo to cycle through snippets so high levels don't repeat the exact same snippet
     return sorted[(level - 1) % sorted.length];
   }
