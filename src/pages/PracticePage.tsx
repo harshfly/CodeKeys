@@ -289,7 +289,7 @@ export default function PracticePage() {
                   <button className={`c-btn ${store.strictMode ? 'on' : ''}`} onClick={() => store.setStrictMode(!store.strictMode)}>
                     Strict
                   </button>
-                  <button className="c-btn" onClick={loadNewSnippet} style={{ color: 'var(--amber)' }}>↺ New</button>
+                  <button className="c-btn" onClick={() => loadNewSnippet()} style={{ color: 'var(--amber)' }}>↺ New</button>
                   <button className="c-btn" onClick={() => {
                     const types = SNIPPET_TYPES.filter(t => t !== 'custom');
                     const nextType = types[(types.indexOf(store.snippetType as any) + 1) % types.length] as any;
