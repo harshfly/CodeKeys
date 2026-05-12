@@ -75,12 +75,7 @@ export default function PracticePage() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
-  useEffect(() => {
-    const curElem = document.querySelector('.ch.cur') as HTMLElement;
-    if (curElem) {
-      curElem.scrollIntoView({ behavior: 'auto', block: 'nearest' });
-    }
-  }, [store.position]);
+
 
   const startTimer = useCallback(() => {
     const s = useTypingStore.getState();
