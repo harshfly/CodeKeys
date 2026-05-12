@@ -42,6 +42,7 @@ export default function PracticePage() {
   const [step, setStep] = useState<PracticeStep>('select-lang');
   const [selectedLang, setSelectedLang] = useState<LanguageId | null>(null);
   const [currentLevel, setCurrentLevel] = useState(1);
+  const [fontSize, setFontSize] = useState(0.88);
 
   // Check if we came from a level link
   useEffect(() => {
@@ -284,6 +285,7 @@ export default function PracticePage() {
                   <button className={`c-btn ${store.strictMode ? 'on' : ''}`} onClick={() => store.setStrictMode(!store.strictMode)}>
                     Strict
                   </button>
+
                   <button className="c-btn" onClick={() => loadNewSnippet()} style={{ color: 'var(--amber)' }}>↺ New</button>
                   <button className="c-btn" onClick={() => {
                     const types = SNIPPET_TYPES.filter(t => t !== 'custom');
@@ -338,7 +340,11 @@ export default function PracticePage() {
 
               {/* CODE BOX */}
               <div className="code-panel">
-                <div className="code-box" onClick={focusInput} tabIndex={0}>
+                <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '6px', zIndex: 10 }}>
+                  <button onClick={(e) => { e.stopPropagation(); setFontSize(f => Math.max(f - 0.1, 0.5)); }} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '6px', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold', transition: 'all 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = 'var(--surface)'} onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface2)'} title="Zoom Out">-</button>
+                  <button onClick={(e) => { e.stopPropagation(); setFontSize(f => Math.min(f + 0.1, 2.5)); }} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '6px', width: '32px', height: '32px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 'bold', transition: 'all 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = 'var(--surface)'} onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface2)'} title="Zoom In">+</button>
+                </div>
+                <div className="code-box" onClick={focusInput} tabIndex={0} style={{ fontSize: `${fontSize}rem` }}>
                   <div className="chars">
                     {store.text.split('').map((ch, i) => {
                       let cls = 'ch ';
