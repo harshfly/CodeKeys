@@ -11,7 +11,7 @@ export default function HomePage() {
           <div className="hero-inner">
             <div>
               <div className="hero-pill"><div className="hero-pill-dot pulse" />Built for developers — not secretaries</div>
-              <h1 className="hero-heading">Type code.<br/><em>Think faster.</em><br/>Ship sooner.</h1>
+              <h1 className="hero-heading">The ultimate<br/><em>typing test</em><br/>for developers.</h1>
               <p className="hero-desc">The only typing platform engineered for programmers. Real code snippets, special characters, 12+ languages — from 30 WPM to 120+ WPM.</p>
               <div className="hero-btns">
                 <Link to="/practice" className="btn btn-primary">Start Practicing →</Link>
