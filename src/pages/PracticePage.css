@@ -240,7 +240,7 @@
 .ch.ok { color: var(--green); }
 .ch.err { color: var(--red); text-decoration: underline; background: rgba(255,71,87,0.15); }
 .ch.cur { background: rgba(0,212,255,0.3); outline: 2px solid var(--accent); outline-offset: -1px; border-radius: 3px; }
-.ch.todo { color: var(--text2); opacity: 0.6; }
+.ch.todo { color: var(--text2); opacity: 0.9; }
 .click-hint { font-size: 0.7rem; color: var(--muted); text-align: center; margin-top: 0.6rem; font-family: var(--mono); letter-spacing: 0.5px; }
 
 /* RESULT SCREEN */
