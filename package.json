@@ -24,6 +24,7 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "~5.8.2",
+    "vercel": "^53.4.0",
     "vite": "^6.2.0"
   }
 }
